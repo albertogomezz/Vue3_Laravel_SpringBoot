@@ -82,7 +82,7 @@ div.table-title {
 }
 
 .table-title h3 {
-    color: #fafafa;
+    color: #ffffff;
     font-size: 30px;
     font-weight: 400;
     font-style: normal;

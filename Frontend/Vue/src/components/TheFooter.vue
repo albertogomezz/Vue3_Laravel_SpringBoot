@@ -1,22 +1,26 @@
 <template>
-  <footer>
-        <p>&copy; 2023 Tu Empresa. Todos los derechos reservados.</p>
-    </footer>
-</template>
+    <div>
+            <footer class="p-3 bg-light text-center">
+            <p>&copy; 2023 Nombre de Tu Sitio. Todos los derechos reservados.</p>
+            <p>Síguenos en: 
+                <a href="#" class="text-primary">Facebook</a> | 
+                <a href="#" class="text-primary">Twitter</a> | 
+                <a href="#" class="text-primary">Instagram</a>
+            </p>
+            </footer>
+        </div>
+    </template>
 
 <script>
 </script>
 
 <style>
 footer {
-    background-color: #333;
-    color: #fff;
+    background-color: #929292;
     text-align: center;
-    padding: 10px;
+    height: 90px;
     position: fixed;
     bottom: 0;
     width: 100%;
-    margin: 0;
-    padding: 0;
 }
 </style>

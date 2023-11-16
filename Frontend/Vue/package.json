@@ -13,8 +13,19 @@
     "shortid": "^2.2.16",
     "vue": "^3.3.8",
     "vue-axios": "^3.5.2",
-    "vue-router": "^4.2.5",
-    "vuex": "^4.0.2"
+    "vuex": "^4.0.2",
+    "@fortawesome/fontawesome-free": "^6.4.2",
+    "@popperjs/core": "^2.11.8",
+    "bootstrap": "^5.3.2",
+    "bootstrap-vue": "^2.23.1",
+    "fancybox": "^3.0.1",
+    "jquery": "^3.7.1",
+    "malihu-custom-scrollbar-plugin": "^3.1.5",
+    "portal-vue": "^3.0.0-beta.0",
+    "primeicons": "^6.0.1",
+    "primevue": "^3.40.1",
+    "vue-icomoon": "^0.6.1",
+    "vue-router": "^4.2.5"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",
