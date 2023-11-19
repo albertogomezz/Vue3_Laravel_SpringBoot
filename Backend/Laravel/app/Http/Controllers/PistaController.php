@@ -35,7 +35,8 @@ class PistaController extends Controller
     }
 
     public function update(UpdatePistaRequest $request, $id)
-    {
+    {   
+        // return response()->json("afdfa");
         if (Pista::where('id', $id)->exists()) {
 
             $pista = Pista::find($id);

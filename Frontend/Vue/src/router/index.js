@@ -12,10 +12,21 @@ import { createRouter, createWebHistory } from 'vue-router';
             name: "home",
             component: () => import('../views/Home.vue')
         },
+        //ADMIN
         {
-            path: "/pistas",
-            name: "pistas",
-            component: () => import('../views/Pistas.vue')
+            path: "/admin/pistas",
+            name: "listPistas",
+            component: () => import('../views/Pista/Pistas.vue')
+        },
+        {
+            path: "/admin/pistas/update/:id",
+            name: "updatePista",
+            component: () => import('../views/Pista/PistaUpdate.vue')
+        },
+        {
+            path: "/admin/pistas/create",
+            name: "createPista",
+            component: () => import('../views/Pista/PistaCreate.vue')
         },
         {
             path: "/sports",

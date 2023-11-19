@@ -33,7 +33,7 @@ const items = ref([
 {
   label: 'Pistas',
   icon: 'pi pi-envelope',
-  router: '/pistas'
+  router: '/admin/pistas'
 },
 {
   label: 'Sports & Fitness',

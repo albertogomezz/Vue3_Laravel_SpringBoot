@@ -5,12 +5,13 @@
 <script>
 import { reactive, computed } from 'vue';
 import { useStore } from 'vuex';
-import Constant from '../Constant';
-import ListPistas from '../components/ListPistas.vue';
+import Constant from '../../Constant';
+import ListPistas from '../../components/ListPistas.vue';
 
 export default {
   components:{ListPistas},
   setup() {
+
       const store = useStore();
 
       const ruta = `pistaAdmin/${Constant.GET_PISTAS}`;

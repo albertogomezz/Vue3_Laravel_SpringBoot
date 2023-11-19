@@ -16,6 +16,7 @@ class UpdatePistaRequest extends FormRequest
     public function rules()
     {
         return [
+            'id' => 'required|integer',
             'pista_id' => 'required|string|max:255',
             'description' => 'required|string|max:255',
             'image' => 'required|string|max:255',

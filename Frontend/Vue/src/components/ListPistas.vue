@@ -3,8 +3,8 @@
         <div class="crud-table">
             <div class="clearfix">
                 <div class="form-inline pull-left">
-                    <button class="btn btn-success"><span class="glyphicon glyphicon-plus">
-                        </span>Add more user</button>
+                    <button class="btn btn-success" @click="createPista()"><span class="glyphicon glyphicon-plus">
+                        </span>Add Pista</button>
                 </div>
             </div>
             <table class="table table-striped">
@@ -25,10 +25,10 @@
                         <td>{{ pista.type }}</td>
                         <td>{{ pista.is_reserved }}</td>
                         <td>
-                            <button class="pulse">Edit</button>
+                            <button class="pulse" @click="updatePista(pista.id)">Edit</button>
                         </td>
                         <td>
-                            <button class="pulse">Delete</button>
+                            <button class="pulse" @click="deletePista(pista.id)">Delete</button>
                         </td>
                     </tr>
                 </tbody>
@@ -38,30 +38,36 @@
 </template>
 
 <script>
-// import { useStore } from 'vuex';
-// import { useRouter } from 'vue-router';
-// import Constant from '../Constant';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+import Constant from '../Constant';
 
 export default {
+
     props: {
         pistas: Object,
     },
     setup() {
-        // const toaster = createToaster({ position: "top-right" });
-        // const store = useStore();
-        // const router = useRouter();
-        // const createMesa = () => {
-        //     router.push({ name: "createMesa" })
-        // }
 
-        // const deleteMesa = (id) => {
-        //     store.dispatch(`mesaDashboard/${Constant.DELETE_ONE_MESA}`, { id })
-        //     toaster.info("Mesa deleted")
-        // }
-        // const updateMesa = (id) => {
-        //     router.push({ name: "updateMesa", params: { id } })
-        // }
-        // return { deleteMesa, updateMesa, createMesa }
+        const store = useStore();
+        const router = useRouter();
+
+        const createPista = () => {
+            router.push({ name: "createPista" })
+        }
+
+        const deletePista = (id) => {
+            store.dispatch(`pistaAdmin/${Constant.DELETE_ONE_PISTA}`, { id })
+        }
+        const updatePista = (id) => {
+            // console.log(id);
+            router.push({ name: "updatePista", params: { id } })
+        }
+        return { 
+            deletePista
+            , updatePista
+            , createPista 
+        }
     }
 }
 </script>

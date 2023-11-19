@@ -5,17 +5,17 @@ export default {
 
     GetPistas() {
         return Api(secrets.URL_LARAVEL).get('pistas');
-    },//GetMesas
-    // GetOneMesa(id) {
-    //     return Api(secrets.URL_LARAVEL).get('mesa/' + id);
-    // },//GetOneLinkMesa
-    // DeleteMesa(id) {
-    //     return Api(secrets.URL_LARAVEL).delete(`mesa/${id}`)
-    // },
-    // UpdateOneMesa(mesa) {
-    //     return Api(secrets.URL_LARAVEL).put(`mesa/${mesa.id}`, mesa)
-    // },
-    // CreateOneMesa(mesa) {
-    //     return Api(secrets.URL_LARAVEL).post(`mesa`, mesa)
-    // },
+    },
+    GetOnePista(id) {
+        return Api(secrets.URL_LARAVEL).get('pistas/' + id);
+    },
+    DeleteMesa(id) {
+        return Api(secrets.URL_LARAVEL).delete(`pistas/${id}`)
+    },
+    UpdateOnePista(pista) {
+        return Api(secrets.URL_LARAVEL).put(`pistas/${pista.id}`, pista)
+    },
+    CreateOnePista(pista) {
+        return Api(secrets.URL_LARAVEL).post(`pistas`, pista)
+    },
 }

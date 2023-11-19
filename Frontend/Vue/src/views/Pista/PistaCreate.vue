@@ -1,0 +1,27 @@
+<template>
+    <formPista @data="create_emit" />
+</template>
+
+<script>
+import { reactive, computed } from 'vue';
+import Constant from '../../Constant';
+import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
+import formPista from '../../components/form_pista_dashboard.vue'
+
+export default {
+    components: { formPista },
+    setup() {
+
+        const router = useRouter();
+        const store = useStore();
+
+        const create_emit = (pista) => {
+            store.dispatch(`pistaAdmin/${Constant.CREATE_ONE_PISTA}`, pista);
+            router.push({ name: "listPistas" })
+        }
+
+        return { create_emit }
+    }
+}
+</script>
