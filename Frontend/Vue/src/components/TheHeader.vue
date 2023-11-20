@@ -7,7 +7,6 @@
           <template #item="{ item, props, hasSubmenu, root }">
               <router-link v-if="item.router" v-slot="{ href, navigate }" :to="item.router" custom>
                 <a v-ripple :href="href" v-bind="props.action" @click="navigate">
-                    <span :class="item.icon" />
                     <span class="ml-2">{{ item.label }}</span>
                 </a>
               </router-link>
@@ -27,38 +26,23 @@ import { ref } from "vue";
 const items = ref([
 {
   label: 'Home',
-  icon: 'pi pi-home',
   router: '/home'
 },
 {
-  label: 'Pistas',
-  icon: 'pi pi-envelope',
+  label: 'Pistas Admin',
   router: '/admin/pistas'
 },
 {
-  label: 'Sports & Fitness',
-  icon: ' pi pi-discord',
-  router: '/sports'
+  label: 'Pistas Client',
+  router: '/pistas'
 },
 {
-  label: 'Instalations',
-  items: [
-      {
-          label: 'Inside Instalations',
-          icon: 'pi pi-bolt',
-          router: '/sports'
-          
-      },
-      {
-          separator: true
-      },
-      {
-          label: 'Outside Instalations',
-          icon: 'pi pi-server',
-          router: '/sports'
-      }
-  ]
+  label: 'Sports Admin',
+  router: '/admin/sports'
 },
-
+{
+  label: 'Sports Client',
+  router: '/sports'
+}
 ]);
 </script>

@@ -17,6 +17,7 @@ export default {
         const store = useStore();
 
         const create_emit = (pista) => {
+            // console.log(pista);
             store.dispatch(`pistaAdmin/${Constant.CREATE_ONE_PISTA}`, pista);
             router.push({ name: "listPistas" })
         }

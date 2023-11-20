@@ -22,15 +22,19 @@ public class Pista {
 	@Column(name = "type")
 	private String type;
 
+	@Column(name = "is_reserved")
+	private Boolean is_reserved;
+
 	public Pista() {
 
 	}
 
-	public Pista(String pista_id, String description, String image, String type) {
+	public Pista(String pista_id, String description, String image, String type, Boolean is_reserved) {
 		this.pista_id = pista_id;
 		this.description = description;
 		this.image = image;
 		this.type = type;
+		this.is_reserved = is_reserved;
 	}
 
 	public long getId() {
@@ -69,8 +73,16 @@ public class Pista {
 		this.type = type;
 	}
 
-	@Override
-	public String toString() {
-		return "Pista [id=" + id + ", pista_id=" + pista_id + ", desc=" + description + ", image=" + image + ",type=" + type + "]";
+		public Boolean getIs_reserved() {
+		return is_reserved;
 	}
+
+	public void setIs_reserved(Boolean is_reserved) {
+		this.is_reserved = is_reserved;
+	}
+
+	// @Override
+	// public String toString() {
+	// 	return "Pista [id=" + id + ", pista_id=" + pista_id + ", desc=" + description + ", image=" + image + ",type=" + type + "]";
+	// }
 }

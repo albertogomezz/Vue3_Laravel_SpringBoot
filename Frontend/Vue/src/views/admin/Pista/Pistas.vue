@@ -5,19 +5,18 @@
 <script>
 import { reactive, computed } from 'vue';
 import { useStore } from 'vuex';
-import Constant from '../../Constant';
-import ListPistas from '../../components/ListPistas.vue';
+import Constant from '../../../Constant';
+import ListPistas from '../../../components/ListPistasAdmin.vue';
 
 export default {
   components:{ListPistas},
   setup() {
 
       const store = useStore();
-
       const ruta = `pistaAdmin/${Constant.GET_PISTAS}`;
-
+      
       store.dispatch(ruta);
-
+      
       const state = reactive({
           pistas: computed(() => store.getters['pistaAdmin/getPistas']),
       });
@@ -26,9 +25,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.header_title {
-  text-align: center;
-}
-</style>
