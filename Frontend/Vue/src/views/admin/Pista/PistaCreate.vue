@@ -4,10 +4,10 @@
 
 <script>
 import { reactive, computed } from 'vue';
-import Constant from '../../Constant';
+import Constant from '../../../Constant';
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-import formPista from '../../components/form_pista_dashboard.vue'
+import formPista from '../../../components/form_pista_dashboard.vue'
 
 export default {
     components: { formPista },

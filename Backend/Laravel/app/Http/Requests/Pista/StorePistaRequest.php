@@ -20,7 +20,7 @@ class StorePistaRequest extends FormRequest
             'description' => 'required|string|max:255',
             'image' => 'required|string|max:255',
             'type' => 'required|string|max:255',
-            'is_reserved' => 'required',
+            'is_reserved' => 'required|boolean',
         ];
     }
 }

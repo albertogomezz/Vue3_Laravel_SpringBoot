@@ -21,6 +21,7 @@ export default {
           pistas: computed(() => store.getters['pistaAdmin/getPistas']),
       });
 
+
       return { state };
   }
 }

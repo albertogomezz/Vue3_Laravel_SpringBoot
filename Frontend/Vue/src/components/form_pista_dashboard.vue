@@ -1,6 +1,6 @@
 <template>
     <div class="login-box">
-        <h2>Update</h2>
+        <h2>Form</h2>
         <form>
             <div class="user-box">
                 <label>Pista ID</label>
@@ -47,23 +47,13 @@
                 Cancel
             </a>
         </form>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br> 
-    <br>
-    <br>
-    <br>
     </div>
-    <br>
 
 </template>
 
 <script>
 import { reactive, getCurrentInstance, computed } from 'vue'
 import { useRouter } from 'vue-router';
-import Constant from '../Constant';
 import { useStore } from 'vuex'
 export default {
     props: {
@@ -81,6 +71,7 @@ export default {
     setup(props) {
         const router = useRouter();
         const pista = props.pista;
+        // console.log(pista);
         const { emit } = getCurrentInstance();
         const store = useStore();
 
@@ -88,7 +79,9 @@ export default {
             pista: { ...pista }
         });
 
-        state.pista.is_reserved = Boolean(state.pista.is_reserved);
+        console.log(state.pista);
+        state.pista.is_reserved = Boolean(state.pista.is_reserved); 
+        // 
 
         const createSubmit = () => {
             emit('data', state.pista)

@@ -58,6 +58,7 @@ export default {
 
         const deletePista = (id) => {
             store.dispatch(`pistaAdmin/${Constant.DELETE_ONE_PISTA}`, { id })
+            router.push({ name: "listPistas" })
         }
         const updatePista = (id) => {
             // console.log(id);
