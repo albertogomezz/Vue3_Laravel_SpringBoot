@@ -1,12 +1,12 @@
 export default {
-    ///MESA
+    //PISTAS
     GET_PISTAS: "GetPistas",
     GET_ONE_PISTA: "GetOnePista",
     DELETE_ONE_PISTA: "DeteleOnePista",
     UPDATE_ONE_PISTA: "UpdateOnePista",
     CREATE_ONE_PISTA: "CreateOnePista",
 
-    ///CATEGORY
+    //SPORTS
     GET_SPORTS: "GetSports",
     GET_ONE_SPORT: "GetOneSport",
     ADD_SPORT: "AddSport",

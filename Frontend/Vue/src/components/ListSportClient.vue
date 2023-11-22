@@ -6,20 +6,20 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>ID_Sport</th>
+                        <th>Sport Name</th>
                         <th>Description</th>
-                        <th>Type</th>
-                        <th>Reserved?</th>
-                        <th>Details</th>
+                        <th>Price</th>
+                        <th>Image</th>
                     </tr>
                 </thead>
                 <tbody class="text-center">
-                    <tr v-for="pista in pistas">
-                        <td>{{ pista.pista_id }}</td>
-                        <td>{{ pista.description }}</td>
-                        <td>{{ pista.type }}</td>
-                        <td>{{ pista.is_reserved }}</td>
-                        <td><button @click="details(pista.id)">Details</button></td>
+                    <tr v-for="sport in sports">
+                        <td>{{ sport.sport_id }}</td>
+                        <td>{{ sport.sport_name }}</td>
+                        <td>{{ sport.description }}</td>
+                        <td>{{ sport.price }}</td>
+                        <td></td>
                     </tr>
                 </tbody>
             </table>
@@ -28,23 +28,17 @@
 </template>
 
 <script>
-import { useRoute, useRouter } from 'vue-router'
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+import Constant from '../Constant';
+
 export default {
 
     props: {
-        pistas: Object,
-    },
-    setup(){
-
-        const router = useRouter();
-
-        const details = (id) => {
-            // console.log(id);
-            router.push({ name: "detailsPista", params: { id } })
-        }
-    return { details }
+        sports: Object,
     }
 }
+// console.log(sports);
 </script>
 <style lang="scss">
 body.tableMesa {

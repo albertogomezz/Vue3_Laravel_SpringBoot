@@ -26,8 +26,9 @@ export const pistaClient = {
             }
         },
         [Constant.GET_ONE_PISTA]: async (store, payload) => {
+            // console.log(payload);
             const response = await PistaServiceClient.GetOnePista(payload);
-            store.commit(Constant.GET_ONE_PISTA, response.data.data);
+            store.commit(Constant.GET_ONE_PISTA, response.data);
         },
     },//actions
     getters: {

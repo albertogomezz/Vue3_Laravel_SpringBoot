@@ -18,6 +18,12 @@ import { createRouter, createWebHistory } from 'vue-router';
             name: "pistas_cli",
             component: () => import('../views/client/PistasCli.vue')
         },
+        //DETAILS
+        {
+            path: "/pistas/details/:id",
+            name: "detailsPista",
+            component: () => import('../views/DetailsPista.vue')
+        },
         {
             path: "/sports",
             name: "sports_cli",

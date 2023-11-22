@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.crud.demo_crud.model.Sport;
 import com.crud.demo_crud.repository.SportRepository;
 
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api")
 public class SportController {
