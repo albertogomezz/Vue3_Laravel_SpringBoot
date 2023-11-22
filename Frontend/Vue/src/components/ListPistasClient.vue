@@ -19,7 +19,9 @@
                         <td>{{ pista.description }}</td>
                         <td>{{ pista.type }}</td>
                         <td>{{ pista.is_reserved }}</td>
-                        <td><button @click="details(pista.id)">Details</button></td>
+                        <td>
+                            <button @click="details(pista.id)">Details</button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
