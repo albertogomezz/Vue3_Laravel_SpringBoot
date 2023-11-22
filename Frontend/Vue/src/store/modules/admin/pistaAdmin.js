@@ -23,7 +23,6 @@ export const pistaAdmin = {
         [Constant.UPDATE_ONE_PISTA]: (state, payload) => {
             // console.log(payload);
             if (payload) {
-                payload.is_reserved = Number(payload.is_reserved)
                 let index = (state.pistas || []).findIndex((item) => item.id == payload.id);
                 if (index !== -1) {
                     state.pistas[index] = payload;
