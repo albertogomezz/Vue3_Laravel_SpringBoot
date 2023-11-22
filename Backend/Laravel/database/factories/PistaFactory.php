@@ -16,7 +16,8 @@ class PistaFactory extends Factory
             'pista_id' => $this->faker->firstName(),
             'description' => $this->faker->paragraph(),
             'image' => $this->faker->imageURL(640, 400, 'animals', true),
-            'type' => $this->faker->firstName()
+            'type' => $this->faker->firstName(),
+            'is_reserved' => $this->faker->boolean()
         ];
     }
 }
