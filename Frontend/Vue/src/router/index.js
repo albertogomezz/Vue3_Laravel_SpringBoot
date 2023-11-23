@@ -23,28 +23,44 @@ import { createRouter, createWebHistory } from 'vue-router';
             name: "sports_cli",
             component: () => import('../views/client/SportsCli.vue')
         },
-        //ADMIN
+        //ADMINISTRADOR
         //PISTAS
         {
+            //LIST PISTAS
             path: "/admin/pistas",
             name: "listPistas",
             component: () => import('../views/admin/Pista/Pistas.vue')
         },
         {
+            //UPDATE PISTAS
             path: "/admin/pistas/update/:id",
             name: "updatePista",
             component: () => import('../views/admin/Pista/PistaUpdate.vue')
         },
         {
+            //CREATE PISTAS
             path: "/admin/pistas/create",
             name: "createPista",
             component: () => import('../views/admin/Pista/PistaCreate.vue')
         },
         // SPORTS
         {
+            //LIST SPORTS
             path: "/admin/sports",
-            name: "sports",
+            name: "listSports",
             component: () => import('../views/admin/Sport/Sports.vue')
+        },
+        {
+            //CREATE SPORTS
+            path: "/admin/sports/create",
+            name: "createSport",
+            component: () => import('../views/admin/Sport/SportCreate.vue')
+        },
+        {
+            //UPDATE SPORTS
+            path: "/admin/sports/update/:id",
+            name: "updateSport",
+            component: () => import('../views/admin/Sport/SportUpdate.vue')
         },
     ]
     })
