@@ -16,6 +16,7 @@
                         <th>Reserved?</th>
                         <th></th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody class="text-center">
@@ -29,6 +30,9 @@
                         </td>
                         <td>
                             <button class="pulse" @click="deletePista(pista.id)">Delete</button>
+                        </td>
+                        <td>
+                            <button @click="details(pista.id)">Details</button>
                         </td>
                     </tr>
                 </tbody>
@@ -64,10 +68,15 @@ export default {
             // console.log(id);
             router.push({ name: "updatePista", params: { id } })
         }
+        const details = (id) => {
+            // console.log(id);
+            router.push({ name: "detailsPista", params: { id } })
+        }
         return { 
             deletePista
             , updatePista
             , createPista 
+            , details
         }
     }
 }

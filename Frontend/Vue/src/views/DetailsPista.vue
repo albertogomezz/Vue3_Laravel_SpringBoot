@@ -10,19 +10,13 @@
                         <th>Description</th>
                         <th>Type</th>
                         <th>Reserved?</th>
-                        <th>Details</th>
                     </tr>
                 </thead>
                 <tbody class="text-center">
-                    <tr v-for="pista in pistas">
-                        <td>{{ pista.pista_id }}</td>
-                        <td>{{ pista.description }}</td>
-                        <td>{{ pista.type }}</td>
-                        <td>{{ pista.is_reserved }}</td>
-                        <td>
-                            <button @click="details(pista.id)">Details</button>
-                        </td>
-                    </tr>
+                        <td>{{ stateOne.pista.pista_id }}</td>
+                        <td>{{ stateOne.pista.description }}</td>
+                        <td>{{ stateOne.pista.type }}</td>
+                        <td>{{ stateOne.pista.is_reserved }}</td>
                 </tbody>
             </table>
         </div>
@@ -30,21 +24,25 @@
 </template>
 
 <script>
-import { useRoute, useRouter } from 'vue-router'
+import Constant from '../Constant';
+import { useRoute } from 'vue-router'
+import { reactive, computed } from 'vue'
+import { useStore } from 'vuex'
 export default {
 
-    props: {
-        pistas: Object,
-    },
-    setup(){
+    setup() {
 
-        const router = useRouter();
+        const route = useRoute()
+        const store = useStore();
+        const id = route.params.id;
 
-        const details = (id) => {
-            // console.log(id);
-            router.push({ name: "detailsPista", params: { id } })
-        }
-    return { details }
+        // console.log(id);
+        store.dispatch(`pistaClient/${Constant.GET_ONE_PISTA}`, id)
+
+        const stateOne = reactive({
+            pista: computed(() => store.getters["pistaClient/getOnePista"])
+        })
+        return { stateOne }
     }
 }
 </script>

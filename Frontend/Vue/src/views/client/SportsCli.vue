@@ -1,25 +1,26 @@
 <template>
-    <!-- <ListPistas :pistas="state.pistas" /> -->
-    <h1>Esto es sports client</h1>
+    <ListSportClient :sports="state.sports" />
+    <!-- <h1>{{state.sports}}</h1> -->
 </template>
 
 <script>
 import { reactive, computed } from 'vue';
 import { useStore } from 'vuex';
 import Constant from '../../Constant';
-import ListPistas from '../../components/ListPistasClient.vue';
+import ListSportClient from '../../components/ListSportClient.vue';
 
 export default {
-    components:{ListPistas},
+    components:{ListSportClient},
     setup() {
 
         const store = useStore();
-        const ruta = `pistaAdmin/${Constant.GET_PISTAS}`;
+        const ruta = `sportClient/${Constant.GET_SPORTS}`;
         
-        store.dispatch(ruta);
+        // console.log(ruta);
+        store.dispatch(`sportClient/${Constant.GET_SPORTS}`);
         
         const state = reactive({
-            pistas: computed(() => store.getters['pistaAdmin/getPistas']),
+            sports: computed(() => store.getters['sportClient/getSports']),
         });
 
         return { state };
