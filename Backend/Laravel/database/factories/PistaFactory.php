@@ -14,7 +14,7 @@ class PistaFactory extends Factory
     {
         return [
             'pista_id' => $this->faker->firstName(),
-            'description' => $this->faker->paragraph(),
+            'description' => $this->faker->firstName(),
             'image' => $this->faker->imageURL(640, 400, 'animals', true),
             'type' => $this->faker->firstName(),
             'is_reserved' => $this->faker->boolean()

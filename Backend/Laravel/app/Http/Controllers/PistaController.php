@@ -15,12 +15,27 @@ class PistaController extends Controller
 {   
 
     public function store(StorePistaRequest $request) {
-        return PistaResource::make(Pista::create($request->validated()));
+        // return PistaResource::make(Pista::create($request->validated()));
+        $data = $request->except(['sports']);
+        $sports = Sport::whereIn('sport_name', $request->sports)->get();
+        $sports_id = [];
+        foreach ($sports as $c) {
+            array_push($sports_id, $c->id);
+        }
+
+        if (count($sports_id) > 0) {
+            $pista = Pista::create($data);
+            $pista->sports()->sync($sports_id);
+            return PistaResource::make($pista);
+        } else {
+            return response()->json([
+                "Status" => "Not found"
+            ], 404);
+        }
     }
 
     public function index() {   
         return PistaResource::collection(Pista::all());
-        //   return PistaResource::collection(Student::limit($limit)->offset(($page - 1) * $limit)->get());
     }
 
     public function show($id) {

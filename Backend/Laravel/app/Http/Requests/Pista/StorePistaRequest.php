@@ -21,6 +21,7 @@ class StorePistaRequest extends FormRequest
             'image' => 'required|string|max:255',
             'type' => 'required|string|max:255',
             'is_reserved' => 'required|boolean',
+            'sports' => 'required','array:name,sports',
         ];
     }
 }
