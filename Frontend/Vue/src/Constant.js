@@ -2,16 +2,16 @@ export default {
     //PISTAS
     GET_PISTAS: "GetPistas",
     GET_ONE_PISTA: "GetOnePista",
-    DELETE_ONE_PISTA: "DeteleOnePista",
+    DELETE_ONE_PISTA: "DeleteOnePista",
     UPDATE_ONE_PISTA: "UpdateOnePista",
     CREATE_ONE_PISTA: "CreateOnePista",
 
     //SPORTS
     GET_SPORTS: "GetSports",
     GET_ONE_SPORT: "GetOneSport",
-    ADD_SPORT: "AddSport",
-    DELETE_SPORT: "DeleteSport",
-    UPDATE_SPORT: "UpdateSport",
+    CREATE_ONE_SPORT: "CreateOneSport",
+    DELETE_ONE_SPORT: "DeleteOneSport",
+    UPDATE_ONE_SPORT: "UpdateOneSport",
 
     ///USER
     // INITIALIZE_PROFILE: "InitializeProfile",
