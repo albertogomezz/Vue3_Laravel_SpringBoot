@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pista;
+use App\Models\Sport;
 
 //RESOURCE
 use App\Http\Resources\PistaResource;
@@ -15,9 +16,10 @@ class PistaController extends Controller
 {   
 
     public function store(StorePistaRequest $request) {
-        // return PistaResource::make(Pista::create($request->validated()));
         $data = $request->except(['sports']);
+
         $sports = Sport::whereIn('sport_name', $request->sports)->get();
+
         $sports_id = [];
         foreach ($sports as $c) {
             array_push($sports_id, $c->id);
@@ -51,18 +53,34 @@ class PistaController extends Controller
 
     public function update(UpdatePistaRequest $request, $id)
     {   
-        // return response()->json("afdfa");
-        if (Pista::where('id', $id)->exists()) {
+        $data = $request->except(['sports']);
+        $sports_name = [];
+        if ($request->sports !== null) {
+            $sports_name = $request->sports;
+        }
+        $sports = Sport::whereIn('sport_name', $sports_name)->get();
+        $sports_id = [];
+        foreach ($sports as $c) {
+            array_push($sports_id, $c->id);
+        }
 
-            $pista = Pista::find($id);
-            $pista->update($request->validated());
-            return PistaResource::make($pista);
-            
+        $update = Pista::where('id', $id)->update($data);
+
+        if ($update == 1) {
+            if (count($sports_id) > 0) {
+                $pista = Pista::where('id', $id)->firstOrFail();
+                $pista->sports()->detach();
+                $pista->sports()->sync($sports_id);
+            }
+
+            return response()->json([
+                "Message" => "Updated correctly"
+            ]);
         } else {
             return response()->json([
-                "message" => "Pista not found"
+                "Status" => "Not found"
             ], 404);
-        } 
+        };
     }
 
     public function destroy($id)
