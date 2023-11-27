@@ -7,7 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class PistaResource extends JsonResource
 {
     public function toArray($request)
-    {   
+    {
         $sports = [];
         foreach ($this->sports as $c) {
             $sport = [
