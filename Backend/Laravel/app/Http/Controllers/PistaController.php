@@ -53,6 +53,7 @@ class PistaController extends Controller
 
     public function update(UpdatePistaRequest $request, $id)
     {   
+        // return response()->json("adfsfaf");
         $data = $request->except(['sports']);
         $sports_name = [];
         if ($request->sports !== null) {

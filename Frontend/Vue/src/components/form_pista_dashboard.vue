@@ -22,7 +22,16 @@
                 <label>Reserved?</label>
                 <input type="checkbox" name="" v-model="state.pista.is_reserved" />
             </div>
-            
+            <div v-for="sport in cat.sports" :key="sport.id">
+                <input
+                    type="checkbox"
+                    :id="sport.id"
+                    :value="sport.sport_name"
+                    :checked="selectedSports && selectedSports.has(sport.sport_name)"
+                    @change="handleSportSelection"
+                />
+                <label :for="sport.id">{{ sport.sport_name }}</label>
+            </div>
             
             <br><br>
             <a @click="createSubmit()" v-if="!isUpdate">
@@ -48,13 +57,23 @@
             </a>
         </form>
     </div>
-
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
 </template>
 
 <script>
 import { reactive, getCurrentInstance, computed } from 'vue'
 import { useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex'
+import Constant from '../Constant';
+import { ref } from 'vue';
+
 export default {
     props: {
         pista: Object
@@ -68,34 +87,81 @@ export default {
             return path[3] == 'update';
         },
     },
-    setup(props) {
-        const router = useRouter();
-        const pista = props.pista;
-        // console.log(pista);
-        const { emit } = getCurrentInstance();
-        const store = useStore();
+    // ...
 
-        const state = reactive({
-            pista: { ...pista }
-        });
+setup(props) {
+    const router = useRouter();
+    const route = useRoute();
+    const pista = props.pista;
+    const { emit } = getCurrentInstance();
+    const store = useStore();
 
-        console.log(state.pista);
-        state.pista.is_reserved = Boolean(state.pista.is_reserved); 
-        // 
+    // const isUpdate = computed(() => {
+    //     if (route.value) {
+    //         const path = route.value.path.split('/');
+    //         return path[3] == 'update';
+    //     }
+    //     return false;
+    // });
 
-        const createSubmit = () => {
-            emit('data', state.pista)
-        }
+    const state = reactive({
+        pista: { ...pista }
+    });
 
-        const editSubmit = () => {
-            emit('data', state.pista)
-        }
-        const cancel = () => {
-            router.push({ name: "listPistas" })
-        }
+    state.pista.is_reserved = Boolean(state.pista.is_reserved);
 
-        return { state, editSubmit, cancel, createSubmit }
+    store.dispatch(`sportAdmin/${Constant.GET_SPORTS}`);
+
+    const cat = reactive({
+        sports: computed(() => store.getters['sportAdmin/getSports'])
+    });
+
+    const createSubmit = () => {
+        // console.log(state.pista);
+        emit('data', state.pista)
+    };
+
+    const editSubmit = () => {
+        // console.log(state.pista);
+        emit('data', state.pista)
+    };
+
+    const cancel = () => {
+        router.push({ name: "listPistas" });
+    };
+
+    const selectedSports = ref(new Set());
+
+    if (state.pista.sports && state.pista.sports.length > 0) {
+        selectedSports.value = new Set(state.pista.sports.map(sport => sport.sport_name));
     }
+
+    // Verificar si estamos en modo de actualización y establecer los deportes seleccionados
+    // if (isUpdate.value) {
+    //     state.pista.sports.forEach((selectedSport) => {
+    //         selectedSports.value.add(selectedSport);
+    //     });
+    // }
+
+    const handleSportSelection = (event) => {
+        const selectedSport = event.target.value;
+
+        if (selectedSports.value.has(selectedSport)) {
+            // Desseleccionar el deporte
+            selectedSports.value.delete(selectedSport);
+        } else {
+            // Seleccionar el deporte
+            selectedSports.value.add(selectedSport);
+        }
+        // Actualizar el array en state.pista.sports
+        state.pista.sports = Array.from(selectedSports.value);
+    };
+
+    return { state, 
+        // isUpdate,
+        editSubmit, cancel, createSubmit, cat, handleSportSelection, selectedSports };
+}
+
 }
 </script>
 

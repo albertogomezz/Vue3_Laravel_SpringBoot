@@ -1,4 +1,5 @@
 <template>
+    <!-- <h1>{{ stateOne.pista }}</h1> -->
     <body class="tableMesa">
         <div class="crud-table">
             <div class="clearfix">
@@ -10,6 +11,7 @@
                         <th>Description</th>
                         <th>Type</th>
                         <th>Reserved?</th>
+                        <th>Category</th>
                     </tr>
                 </thead>
                 <tbody class="text-center">
@@ -17,6 +19,9 @@
                         <td>{{ stateOne.pista.description }}</td>
                         <td>{{ stateOne.pista.type }}</td>
                         <td>{{ stateOne.pista.is_reserved }}</td>
+                        <td>
+                            {{ getSportNames() }}
+                        </td>
                 </tbody>
             </table>
         </div>
@@ -36,13 +41,24 @@ export default {
         const store = useStore();
         const id = route.params.id;
 
-        // console.log(id);
-        store.dispatch(`pistaClient/${Constant.GET_ONE_PISTA}`, id)
+        store.dispatch(`pistaAdmin/${Constant.GET_ONE_PISTA}`, id)
 
         const stateOne = reactive({
-            pista: computed(() => store.getters["pistaClient/getOnePista"])
+            pista: computed(() => store.getters["pistaAdmin/getOnePista"])
         })
         return { stateOne }
+    },
+    methods: {
+        
+        getSportNames() {
+
+            const store = useStore();
+            const stateOne = reactive({
+
+                pista: computed(() => store.getters["pistaAdmin/getOnePista"])
+            })
+            return stateOne.pista.sports.map(sport => sport.sport_name).join(' | ')
+        }
     }
 }
 </script>
