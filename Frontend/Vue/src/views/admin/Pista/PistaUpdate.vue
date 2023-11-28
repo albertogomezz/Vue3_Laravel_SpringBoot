@@ -31,7 +31,7 @@ export default {
         const update_emit = (pista) =>{
             // console.log(pista);
             store.dispatch(`pistaAdmin/${Constant.UPDATE_ONE_PISTA}`, pista);
-            toaster.success('Pista Updated Succesfully');
+            toaster.success('Pista Updated Successfully');
             router.push({ name: "listPistas" })
         }
 

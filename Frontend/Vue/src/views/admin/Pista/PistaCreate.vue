@@ -21,7 +21,7 @@ export default {
         const create_emit = (pista) => {
             // console.log(pista);
             store.dispatch(`pistaAdmin/${Constant.CREATE_ONE_PISTA}`, pista);
-            toaster.success('Pista Created Succesfully');
+            toaster.success('Pista Created Successfully');
             router.push({ name: "listPistas" })
         }
 

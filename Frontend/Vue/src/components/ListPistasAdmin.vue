@@ -64,7 +64,7 @@ export default {
 
         const deletePista = (id) => {
             store.dispatch(`pistaAdmin/${Constant.DELETE_ONE_PISTA}`, { id })
-            toaster.success('Pista Deleted Succesfully');
+            toaster.success('Pista Deleted Successfully');
             router.push({ name: "listPistas" })
         }
         const updatePista = (id) => {
