@@ -18,7 +18,7 @@
                         <td>{{ stateOne.pista.pista_id }}</td>
                         <td>{{ stateOne.pista.description }}</td>
                         <td>{{ stateOne.pista.type }}</td>
-                        <td>{{ stateOne.pista.is_reserved }}</td>
+                        <td>{{ stateOne.pista.is_reserved ? 'true' : 'false' }}</td>
                         <td>
                             {{ getSportNames() }}
                         </td>
@@ -46,6 +46,9 @@ export default {
         const stateOne = reactive({
             pista: computed(() => store.getters["pistaAdmin/getOnePista"])
         })
+
+        // stateOne.pista.is_reserved = Boolean(stateOne.pista.is_reserved);
+
         return { stateOne }
     },
     methods: {
