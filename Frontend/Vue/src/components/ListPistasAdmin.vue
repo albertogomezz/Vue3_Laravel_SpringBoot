@@ -45,6 +45,7 @@
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import Constant from '../Constant';
+import { createToaster } from "@meforma/vue-toaster";
 
 export default {
 
@@ -53,6 +54,7 @@ export default {
     },
     setup() {
 
+        const toaster = createToaster({ "position": "top-right", "duration": 2000 });
         const store = useStore();
         const router = useRouter();
 
@@ -62,6 +64,7 @@ export default {
 
         const deletePista = (id) => {
             store.dispatch(`pistaAdmin/${Constant.DELETE_ONE_PISTA}`, { id })
+            toaster.success('Pista Deleted Successfully');
             router.push({ name: "listPistas" })
         }
         const updatePista = (id) => {

@@ -1,40 +1,4 @@
 <template>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
     <!-- FOOTER START -->
     <div class="footer">
       <div class="contain">
@@ -87,8 +51,8 @@
       <div class="col social">
         <h1>Social</h1>
         <ul>
-          <li><h6>Kiko Gilabert</h6><a href="https://github.com/kikogilabert"><img src="../../../../assets/logo/github-color-svgrepo-com.svg" width="32" style="width: 32px;"></a></li>
-          <li><h6>Alberto Gómez</h6><a href="https://github.com/albertogomezz"><img src="../../../../assets/logo/github-color-svgrepo-com.svg" width="32" style="width: 32px;"></a></li>
+          <li><h6>Kiko Gilabert</h6><a href="https://github.com/kikogilabert"><img src="../assets/github-color.svg" width="32" style="width: 32px;"></a></li>
+          <li><h6>Alberto Gómez</h6><a href="https://github.com/albertogomezz"><img src="../assets/github-color.svg" width="32" style="width: 32px;"></a></li>
         </ul>
   
       </div>

@@ -4,6 +4,7 @@
 </template>
 
 <script>
+import { createToaster } from "@meforma/vue-toaster";
 import Constant from '../../../Constant';
 import { useRoute, useRouter } from 'vue-router'
 import { reactive, computed } from 'vue'
@@ -14,6 +15,7 @@ export default {
     components: { formPista },
     setup() {
 
+        const toaster = createToaster({ "position": "top-right", "duration": 2000 });
         const router = useRouter();
         const route = useRoute()
         const store = useStore();
@@ -29,6 +31,7 @@ export default {
         const update_emit = (pista) =>{
             // console.log(pista);
             store.dispatch(`pistaAdmin/${Constant.UPDATE_ONE_PISTA}`, pista);
+            toaster.success('Pista Updated Successfully');
             router.push({ name: "listPistas" })
         }
 

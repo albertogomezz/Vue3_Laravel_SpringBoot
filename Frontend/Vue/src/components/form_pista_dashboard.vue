@@ -22,24 +22,37 @@
                 <label>Reserved?</label>
                 <input type="checkbox" name="" v-model="state.pista.is_reserved" />
             </div>
-            
+            <label><strong>Deportes:</strong></label>
+            <br>
+            <div v-for="sport in cat.sports" :key="sport.id">
+                <input
+                    type="checkbox"
+                    :id="sport.id"
+                    :value="sport.sport_name"
+                    :checked="selectedSports && selectedSports.has(sport.sport_name)"
+                    @change="handleSportSelection"
+                />
+                <label :for="sport.id">{{ sport.sport_name }}</label>
+            </div>
             
             <br><br>
-            <a @click="createSubmit()" v-if="!isUpdate">
+            <a id="form_buttons" @click="createSubmit()" v-if="!isUpdate">
                 <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
                 Create
             </a>
-            <a @click="editSubmit()" v-if="isUpdate">
+            <a id="form_buttons" @click="editSubmit()" v-if="isUpdate">
                 <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
                 Update
             </a>
-            <a @click="cancel()">
+            <br>
+            <br>
+            <a id="form_button_cancel" @click="cancel()">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -48,13 +61,16 @@
             </a>
         </form>
     </div>
-
 </template>
 
 <script>
 import { reactive, getCurrentInstance, computed } from 'vue'
 import { useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex'
+import Constant from '../Constant';
+import { ref } from 'vue';
+
 export default {
     props: {
         pista: Object
@@ -68,252 +84,147 @@ export default {
             return path[3] == 'update';
         },
     },
-    setup(props) {
-        const router = useRouter();
-        const pista = props.pista;
-        // console.log(pista);
-        const { emit } = getCurrentInstance();
-        const store = useStore();
+    // ...
 
-        const state = reactive({
-            pista: { ...pista }
-        });
+setup(props) {
+    const router = useRouter();
+    const route = useRoute();
+    const pista = props.pista;
+    const { emit } = getCurrentInstance();
+    const store = useStore();
 
-        console.log(state.pista);
-        state.pista.is_reserved = Boolean(state.pista.is_reserved); 
-        // 
+    const state = reactive({
+        pista: { ...pista }
+    });
 
-        const createSubmit = () => {
-            emit('data', state.pista)
-        }
+    state.pista.is_reserved = Boolean(state.pista.is_reserved);
 
-        const editSubmit = () => {
-            emit('data', state.pista)
-        }
-        const cancel = () => {
-            router.push({ name: "listPistas" })
-        }
+    store.dispatch(`sportAdmin/${Constant.GET_SPORTS}`);
 
-        return { state, editSubmit, cancel, createSubmit }
+    const cat = reactive({
+        sports: computed(() => store.getters['sportAdmin/getSports'])
+    });
+
+    const createSubmit = () => {
+        // console.log(state.pista);
+        emit('data', state.pista)
+    };
+
+    const editSubmit = () => {
+        // console.log(state.pista);
+        state.pista.sports = Array.from(selectedSports.value);
+        emit('data', state.pista)
+    };
+
+    const cancel = () => {
+        router.push({ name: "listPistas" });
+    };
+
+    const selectedSports = ref(new Set());
+
+    if (state.pista.sports && state.pista.sports.length > 0) {
+        selectedSports.value = new Set(state.pista.sports.map(sport => sport.sport_name));
     }
+
+    const handleSportSelection = (event) => {
+        const selectedSport = event.target.value;
+
+        if (selectedSports.value.has(selectedSport)) {
+            // Desseleccionar el deporte
+            selectedSports.value.delete(selectedSport);
+        } else {
+            // Seleccionar el deporte
+            selectedSports.value.add(selectedSport);
+        }
+        // Actualizar el array en state.pista.sports
+        state.pista.sports = Array.from(selectedSports.value);
+    };
+
+    return { state, editSubmit, cancel, createSubmit, cat, handleSportSelection, selectedSports };
+}
+
 }
 </script>
 
-<style lang="scss">
+<style>
+/* Estilos generales */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilos del contenedor del formulario */
 .login-box {
-    position: absolute;
-    top: 70%;
-    left: 50%;
-    width: 400px;
-    padding: 40px;
-    transform: translate(-50%, -50%);
-    background: rgba(0, 0, 0, 0.5);
+    width: 300px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 50px;
+}
+
+/* Estilos del formulario */
+.login-box form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilos de los campos de entrada */
+.user-box {
+    margin-bottom: 15px;
+}
+
+.user-box label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.user-box input {
+    width: 100%;
+    padding: 8px;
     box-sizing: border-box;
-    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
-    border-radius: 10px;
-
-    h2 {
-        margin: 0 0 30px;
-        padding: 0;
-        color: #fff;
-        text-align: center;
-    }
-
-    .user-box {
-        position: relative;
-
-        input {
-            width: 100%;
-            padding: 10px 0;
-            font-size: 16px;
-            color: #fff;
-            margin-bottom: 30px;
-            border: none;
-            border-bottom: 1px solid #fff;
-            outline: none;
-            background: transparent;
-        }
-
-        input {
-
-            &:focus~label,
-            &:valid~label {
-                top: -20px;
-                left: 0;
-                color: #03e9f4;
-                font-size: 12px;
-            }
-        }
-    }
-
-    form a {
-        position: relative;
-        display: inline-block;
-        padding: 10px 20px;
-        color: #03e9f4;
-        font-size: 16px;
-        text-decoration: none;
-        text-transform: uppercase;
-        overflow: hidden;
-        transition: .5s;
-        margin-top: 40px;
-        letter-spacing: 4px;
-    }
-
-    a {
-        &:hover {
-            background: #03e9f4;
-            color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 5px #03e9f4, 0 0 25px #03e9f4, 0 0 50px #03e9f4, 0 0 100px #03e9f4;
-        }
-
-        span {
-            position: absolute;
-            display: block;
-
-            &:nth-child(1) {
-                top: 0;
-                left: -100%;
-                width: 100%;
-                height: 2px;
-                background: linear-gradient(90deg, transparent, #03e9f4);
-                animation: btn-anim1 1s linear infinite;
-            }
-
-            &:nth-child(2) {
-                top: -100%;
-                right: 0;
-                width: 2px;
-                height: 100%;
-                background: linear-gradient(180deg, transparent, #03e9f4);
-                animation: btn-anim2 1s linear infinite;
-                animation-delay: 0.25s;
-            }
-
-            &:nth-child(3) {
-                bottom: 0;
-                right: -100%;
-                width: 100%;
-                height: 2px;
-                background: linear-gradient(270deg, transparent, #03e9f4);
-                animation: btn-anim3 1s linear infinite;
-                animation-delay: 0.5s;
-            }
-
-            &:nth-child(4) {
-                bottom: -100%;
-                left: 0;
-                width: 2px;
-                height: 100%;
-                background: linear-gradient(360deg, transparent, #03e9f4);
-                animation: btn-anim4 1s linear infinite;
-                animation-delay: 0.75s;
-            }
-        }
-    }
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
-@keyframes btn-anim1 {
-    0% {
-        left: -100%;
-    }
-
-    50%,
-    100% {
-        left: 100%;
-    }
+/* Estilos de los checkbox */
+.user-box input[type="checkbox"] {
+    margin-right: 5px;
 }
 
-@keyframes btn-anim2 {
-    0% {
-        top: -100%;
-    }
-
-    50%,
-    100% {
-        top: 100%;
-    }
+/* Estilos de los botones */
+#form_buttons {
+    display: inline-block;
+    background: #4caf50;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
 }
 
-@keyframes btn-anim3 {
-    0% {
-        right: -100%;
-    }
-
-    50%,
-    100% {
-        right: 100%;
-    }
+#form_button_cancel {
+    display: inline-block;
+    background: rgb(250, 4, 4);
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
 }
 
-@keyframes btn-anim4 {
-    0% {
-        bottom: -100%;
-    }
+/* a:hover {
+    background: #45a049;
+} */
 
-    50%,
-    100% {
-        bottom: 100%;
-    }
-}
-
-.login-box {
-    select {
-        // styles reset, including removing the default dropdown arrow
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        background-color: transparent;
-        border: none;
-        padding: 0 1em 0 0;
-        margin: 0;
-        width: 100%;
-        font-family: inherit;
-        font-size: inherit;
-        cursor: inherit;
-        line-height: inherit;
-
-        // Stack above custom arrow
-        z-index: 1;
-
-        // Remove focus outline
-        outline: none;
-    }
-
-    .select {
-        display: grid;
-        grid-template-areas: "select";
-        align-items: center;
-        position: relative;
-
-        select,
-        &::after {
-            grid-area: select;
-        }
-
-        min-width: 15ch;
-        max-width: 30ch;
-        border: 1px solid var(--select-border);
-        border-radius: 0.25em;
-        padding: 0.25em 0.5em;
-        font-size: 1.25rem;
-        cursor: pointer;
-        line-height: 1.1;
-
-        // Optional styles
-        // remove for transparency
-        background: linear-gradient(to bottom, #ffffff 0%, #e5e5e5 100%);
-
-        // Custom arrow
-        &::after {
-            content: "";
-            justify-self: end;
-            width: 0.8em;
-            height: 0.5em;
-            background-color: var(--select-arrow);
-            clip-path: polygon(100% 0%, 0 0%, 50% 100%);
-        }
-    }
+/* Espaciado entre los elementos */
+br {
+    margin-bottom: 10px;
 }
 </style>
