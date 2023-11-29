@@ -46,3 +46,11 @@ const items = ref([
 }
 ]);
 </script>
+<style>
+a{
+  text-decoration: none;
+  color: black;
+  padding-bottom: 0;
+}
+
+</style>

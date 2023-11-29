@@ -10,7 +10,9 @@ import Menubar from 'primevue/menubar';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'primevue/resources/themes/lara-light-blue/theme.css'       
 import 'primevue/resources/primevue.min.css'                
-import  'primeicons/primeicons.css'    
+import  'primeicons/primeicons.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap';    
 
 import router from "./router";
 import store from "./store";

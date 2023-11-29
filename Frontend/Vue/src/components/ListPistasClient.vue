@@ -1,31 +1,33 @@
 <template>
     <!-- <h1>{{ pistas }}</h1> -->
-    <body class="tableMesa">
-        <div class="crud-table">
-            <div class="clearfix">
-            </div>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Description</th>
-                        <th>Type</th>
-                        <th>Reserved?</th>
-                        <th>Details</th>
-                    </tr>
-                </thead>
-                <tbody class="text-center">
-                    <tr v-for="pista in pistas">
-                        <td>{{ pista.pista_id }}</td>
-                        <td>{{ pista.description }}</td>
-                        <td>{{ pista.type }}</td>
-                        <td>{{ pista.is_reserved }}</td>
-                        <td>
-                            <button @click="details(pista.id)">Details</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+     <body class="">
+       <div class="container" v-for="pista in pistas">
+            <div class="card float-right">
+                <div class="row">
+                    <div class="col-sm-5">
+                    <img class="d-block w-100 img-card" :src="pista.image">
+                    </div>
+                    <div class="col-sm-7">
+                    <div class="card-block">
+                        <h4 class="card-title">{{ pista.pista_id }}</h4>
+                        <p>{{ pista.description }}</p>
+                        <!-- <h4>Que deporte te gustaria practicar?</h4> -->
+                        <div class="row tarjetas">
+                            <div v-for="deporte in pista.sports" :key="deporte.id" class="col-md-5">
+                                <div class="mini-card">
+                                    <div class="mini-card-body">
+                                    <h3 class="mini-card-title">{{ deporte.sport_name }}</h3>
+                                    <p class="mini-card-price">{{ deporte.price }} €/h</p>
+                                    <a href="#" class="btn btn-primary btn-sm float-right"> Reservar ahora</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    </div>
+                </div>
+            </div> 
         </div>
     </body>
 </template>
@@ -37,9 +39,11 @@ export default {
     props: {
         pistas: Object,
     },
-    setup(){
+    setup(props){
 
+        // console.log(props.pistas);
         const router = useRouter();
+        
 
         const details = (id) => {
             // console.log(id);
@@ -50,193 +54,68 @@ export default {
 }
 </script>
 <style lang="scss">
-body.tableMesa {
-    font-family: "Roboto", helvetica, arial, sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-    text-rendering: optimizeLegibility;
+body {
+  background-color:  #eee;
 }
-
-div.table-title {
-    display: block;
-    margin: auto;
-    max-width: 600px;
-    padding: 5px;
-    width: 100%;
-}
-
-.table-title h3 {
-    color: #ffffff;
-    font-size: 30px;
-    font-weight: 400;
-    font-style: normal;
-    font-family: "Roboto", helvetica, arial, sans-serif;
-    text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+.title {
+ 
+    margin-bottom: 50px;
     text-transform: uppercase;
 }
 
-
-/* Table Styles **/
-
-.table-fill {
-    background: white;
-    border-radius: 3px;
-    border-collapse: collapse;
-    height: 320px;
-    margin: auto;
-    max-width: 600px;
-    padding: 5px;
-    width: 100%;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-    animation: float 5s infinite;
+.card-block {
+    font-size: 1em;
+    position: relative;
+    margin: 0;
+    padding: 1em;
+    padding-bottom: 0;
+    border: none;
+    border-top: 1px solid rgba(34, 36, 38, .1);
+    box-shadow: none;
+     
+}
+.card {
+    font-size: 1em;
+    overflow: hidden;
+    padding: 5;
+    border: none;
+    border-radius: .28571429rem;
+    box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+    margin-top:20px;
 }
 
-body.tableMesa {
-    th {
-        color: #D5DDE5;
-        ;
-        background: #1b1e24;
-        border-bottom: 4px solid #9ea7af;
-        border-right: 1px solid #343a45;
-        font-size: 23px;
-        font-weight: 100;
-        padding: 24px;
-        text-align: left;
-        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-        vertical-align: middle;
-    }
-
-    th:first-child {
-        border-top-left-radius: 3px;
-    }
-
-    th:last-child {
-        border-top-right-radius: 3px;
-        border-right: none;
-    }
-
-    tr {
-        border-top: 1px solid #C1C3D1;
-        border-bottom: 1px solid #C1C3D1;
-        color: #666B85;
-        font-size: 16px;
-        font-weight: normal;
-        text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
-    }
-
-    tr:hover td {
-        background: #4E5066;
-        color: #FFFFFF;
-        border-top: 1px solid #22262e;
-    }
-
-    tr:first-child {
-        border-top: none;
-    }
-
-    tr:last-child {
-        border-bottom: none;
-    }
-
-    tr:nth-child(odd) td {
-        background: #EBEBEB;
-    }
-
-    tr:nth-child(odd):hover td {
-        background: #4E5066;
-    }
-
-    tr:last-child td:first-child {
-        border-bottom-left-radius: 3px;
-    }
-
-    tr:last-child td:last-child {
-        border-bottom-right-radius: 3px;
-    }
-
-    td {
-        background: #FFFFFF;
-        padding: 20px;
-        text-align: left;
-        vertical-align: middle;
-        font-weight: 300;
-        font-size: 18px;
-        text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
-        border-right: 1px solid #C1C3D1;
-    }
-
-    td:last-child {
-        border-right: 0px;
-    }
-
-    th.text-left {
-        text-align: left;
-    }
-
-    th.text-center {
-        text-align: center;
-    }
-
-    th.text-right {
-        text-align: right;
-    }
-
-    td.text-left {
-        text-align: left;
-    }
-
-    td.text-center {
-        text-align: center;
-    }
-
-    td.text-right {
-        text-align: right;
-    }
-
+.mini-card{
+    font-size: 0.7em;
+    text-align: center;
+    border-radius: .28571429rem;
+    box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+    margin-top:20px;
 }
 
-.pulse:hover,
-.pulse:focus {
-    animation: pulse 1s;
-    box-shadow: 0 0 0 2em transparent;
+.mini-card .mini-card-body{
+    padding: 0.5em;
+    padding-bottom: 0.5em;
 }
 
-@keyframes pulse {
-    0% {
-        box-shadow: 0 0 0 0 var(--hover);
-    }
+.btn {
+    margin-top: auto;
 }
 
-body.tableMesa {
-    $colors: (pulse: #ef6eae,
-    );
+.mini-card-price{
+    font-size: 14px;
+}
 
-    @each $button,
-    $color in $colors {
-        .#{$button} {
-            --color: #{$color};
-            --hover: #{adjust-hue($color, 45deg)};
-        }
-    }
+a{
+    text-decoration: none;
+    color: black;
+    padding-bottom: 0;
+}
 
-    button {
-        color: var(--color);
-        transition: 0.25s;
-
-        &:hover,
-        &:focus {
-            border-color: var(--hover);
-            color: #fff;
-        }
-    }
-
-    button {
-        background: none;
-        border: 2px solid;
-        font: inherit;
-        line-height: 1;
-        margin: 0.5em;
-        padding: 1em 2em;
-    }
+.img-card{
+    height: 300px;
+    width: 200px;
+}
+.tarjetas{
+    justify-content: center;
 }
 </style>
