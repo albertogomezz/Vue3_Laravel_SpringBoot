@@ -1,4 +1,5 @@
 <template>
+    <!-- <h1>{{ pistas }}</h1> -->
     <body class="tableMesa">
         <div class="crud-table">
             <div class="clearfix">

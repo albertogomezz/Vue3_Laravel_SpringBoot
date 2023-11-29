@@ -1,27 +1,39 @@
 <template>
-    <ListPistas :pistas="state.pistas" />
+
+<div  v-if="pistas.length  >= 1">
+    <ListPistas :pistas="pistas" />
+</div>
+    <h1 v-else>😔😔LO SIENTO, NO HAY PISTAS DISPONIBLES PARA ESTE DEPORTE😔😔 </h1>
+    
 </template>
 
 <script>
-import { reactive, computed } from 'vue';
-import { useStore } from 'vuex';
-import Constant from '../../Constant';
-import ListPistas from '../../components/ListPistasClient.vue';
-
-export default {
-    components:{ListPistas},
-    setup() {
-
-        const store = useStore();
-        const ruta = "pistaClient/GetPistas";
-        // console.log(ruta);
-        store.dispatch(ruta);
+    import { ref, onMounted } from 'vue';
+    import { useRoute } from 'vue-router';
+    import ListPistas from '../../components/ListPistasClient.vue';
+    import { usePistaFilters } from '../../../src/composables/pistas/usePistas';
+    
+    export default {
+        components: { ListPistas },
+        setup() {
+            const route = useRoute();
+            const pistas = ref([]);
         
-        const state = reactive({
-            pistas: computed(() => store.getters['pistaClient/getPistas']),
-        });
-
-        return { state };
-    }
-}
+            let filters_URL = {
+                sports: [],
+            };
+        
+            try {
+                if (route.params.filters !== '') {
+                filters_URL = JSON.parse(atob(route.params.filters));
+                }
+            } catch (error) {}
+        
+            onMounted(async () => {
+                pistas.value = await usePistaFilters(filters_URL);
+            });
+        
+            return { pistas };
+        },
+    };
 </script>

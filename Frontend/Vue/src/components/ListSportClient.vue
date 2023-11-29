@@ -19,6 +19,9 @@
                         <td>{{ sport.sport_name }}</td>
                         <td>{{ sport.description }}</td>
                         <td>{{ sport.price }}</td>
+                        <td>
+                            <button class="pulse" @click="RedirectPistas(sport.sport_name)">View Pistas</button>
+                        </td>
                         <td></td>
                     </tr>
                 </tbody>
@@ -36,9 +39,20 @@ export default {
 
     props: {
         sports: Object,
+    },
+    setup() {
+
+        const store = useStore();
+        const router = useRouter();
+
+        const RedirectPistas = (sport_name) => {
+            router.push({ name: "pistas_cli", params: { sport_name } })
+        }
+        return { 
+        RedirectPistas 
+        }
     }
 }
-// console.log(sports);
 </script>
 <style lang="scss">
 body.tableMesa {

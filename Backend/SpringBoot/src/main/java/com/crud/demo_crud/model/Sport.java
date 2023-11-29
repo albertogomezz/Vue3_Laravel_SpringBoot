@@ -1,5 +1,10 @@
 package com.crud.demo_crud.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -24,6 +29,14 @@ public class Sport {
 
 	@Column(name = "image")
 	private String image;
+
+	@ManyToMany(fetch = FetchType.LAZY, cascade = {
+		CascadeType.PERSIST,
+		CascadeType.MERGE
+	}, mappedBy = "sports")
+	@JsonIgnore
+	private Set<Pista> pista = new HashSet<>();
+
 
 	public Sport() {
 

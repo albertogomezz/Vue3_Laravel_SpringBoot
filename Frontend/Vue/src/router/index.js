@@ -1,5 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
+import { defineAsyncComponent } from 'vue';
+
+// const asyncfilter = 
+
     const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
@@ -16,6 +20,11 @@ import { createRouter, createWebHistory } from 'vue-router';
         {
             path: "/pistas",
             name: "pistas_cli",
+            component: () => import('../views/client/PistasCli.vue')
+        },
+        {
+            path: "/pistas/:filters",
+            name: "pistas_cli_filters",
             component: () => import('../views/client/PistasCli.vue')
         },
         //DETAILS

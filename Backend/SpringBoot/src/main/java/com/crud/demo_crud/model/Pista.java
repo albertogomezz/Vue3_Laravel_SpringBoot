@@ -1,5 +1,8 @@
 package com.crud.demo_crud.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -24,6 +27,17 @@ public class Pista {
 
 	@Column(name = "is_reserved")
 	private Boolean is_reserved;
+
+
+	@ManyToMany(fetch = FetchType.LAZY, cascade = {
+		CascadeType.PERSIST,
+		CascadeType.MERGE
+	})
+	@JoinTable(name = "pistas_sports", joinColumns = { @JoinColumn(name = "pista_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "sport_id") })
+	private Set<Sport> sports = new HashSet<>();
+
+
 
 	public Pista() {
 
@@ -80,9 +94,22 @@ public class Pista {
 	public void setIs_reserved(Boolean is_reserved) {
 		this.is_reserved = is_reserved;
 	}
+	
+    public Set<Sport> getSports() {
+        return this.sports;
+    }
 
-	// @Override
-	// public String toString() {
-	// 	return "Pista [id=" + id + ", pista_id=" + pista_id + ", desc=" + description + ", image=" + image + ",type=" + type + "]";
-	// }
+	@Override
+	public String toString() {
+        return "{" +
+                " id='" + getId() + "'" +
+                ", pista_id='" + getPista_id() + "'" +
+                ", description='" + getDescription() + "'" +
+                ", image='" + getImage() + "'" +
+                ", type='" + getType() + "'" +
+                ", isReserved='" + getIs_reserved() + "'" +
+				", sports='" + getSports() + "'" +
+
+                "}";
+    }
 }

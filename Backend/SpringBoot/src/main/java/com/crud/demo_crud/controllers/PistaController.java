@@ -9,12 +9,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.crud.demo_crud.model.Pista;
+import com.crud.demo_crud.model.PistaQueryParam;
 import com.crud.demo_crud.repository.PistaRepository;
 
 @CrossOrigin(origins = "http://localhost:5173")
@@ -24,23 +26,24 @@ public class PistaController {
 
 	@Autowired
 	PistaRepository pistaRepository;
-
 	//GET ALL
+
+	//GET WITH FILTERS
 	@GetMapping("/pistas")
-	public ResponseEntity<List<Pista>> getAllPistas(@RequestParam(required = false) String tipo) {
+	public ResponseEntity<List<Pista>> getAll(@ModelAttribute PistaQueryParam pistaQueryParam) {
 		try {
 			List<Pista> pistas = new ArrayList<Pista>();
-
-			if (tipo == null)
+			//SPORTS FILTER
+			if (pistaQueryParam.getSports().length > 0 ) {
+				pistaRepository.findSportsinPistas(pistaQueryParam.getSports()).forEach(pistas::add);
+			//NO FILTERS
+			} else{ 
 				pistaRepository.findAll().forEach(pistas::add);
-
-			if (pistas.isEmpty()) {
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
-
 			return new ResponseEntity<>(pistas, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			System.err.println(e);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
