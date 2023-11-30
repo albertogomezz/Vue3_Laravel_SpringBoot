@@ -1,5 +1,7 @@
 import { ref } from 'vue';
 import PistaService from '../../services/client/PistaServiceClient';
+import SportService from '../../services/client/SportServiceClient';
+
 
 const pistas = ref([]);
 
@@ -14,7 +16,7 @@ export const usePistaFilters = async (filters = {}) => {
   return pistas.value;
 };
 
-// export const useMesaPaginate = (filters = {}) => {
+// export const usePistaPaginate = (filters = {}) => {
 
 //     const totalPages = ref(0)
 //     MesaService.GetMesasPaginate(filters)
@@ -28,10 +30,11 @@ export const usePistaFilters = async (filters = {}) => {
 //     return totalPages;
 // };
 
-// export const useMesaInfinite = (page = 1, limit = 3) => {
-//     const mesas = ref([])
-//     MesaService.GetMesasInfinite(page, limit)
-//         .then(res => mesas.value = res.data)
-//         .catch(error => console.error(error))
-//     return mesas;
-// };
+export const useSportsInfinite = (page = 1, limit = 3) => {
+  const sports = ref([]);
+  // console.log(page, limit);
+  SportService.GetSportInfinite(page, limit)
+      .then(res => sports.value = res.data)
+      .catch(error => console.error(error))
+    return sports;
+};

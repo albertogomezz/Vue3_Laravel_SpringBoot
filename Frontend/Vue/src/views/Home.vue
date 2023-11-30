@@ -1,20 +1,30 @@
 <template>
     <h1>SPORTS</h1>
     <Carousel  :sports="state.sports"  @emitAction="emitAction"/>
+    <br>
+    <br>
+    <br>
+    <br>
+    <!-- <h1>{{ state.sportsInfinite }}</h1> -->
+    <div>
+        <!-- <Sport_item :item="state.sportsInfinite"  @emitAction="emitAction" /> -->
+        <Scroll_sports :data="state.sportsInfinite" @emitAction="emitAction" @page="addInfinite" />
+
+    </div>
 </template>
 
 <script>
 import { reactive, computed } from 'vue';
 import { useStore } from 'vuex';
 import Constant from '../Constant';
-// import Carousel from 'primevue/carousel';
 import { useRouter } from 'vue-router';
-// import '../components/carousel.vue';
+import Scroll_sports  from '../components/scroll_sports.vue';
 import Carousel from '../components/carousel.vue';
+import { useSportsInfinite } from '../composables/pistas/usePistas';
 import { getCurrentInstance } from 'vue';
 
 export default {
-    components: { Carousel },
+    components: { Carousel, Scroll_sports },
     emits: {
         emitAction: Object
     },
@@ -25,6 +35,7 @@ export default {
         
         const { emit } = getCurrentInstance();
         const emitAction = (item) => {
+            // console.log(item);
             redirectToPistas(item);
         }
 
@@ -33,7 +44,7 @@ export default {
 
         const state = reactive({
             sports: computed(() => store.getters['sportClient/getSports']),
-            // mesasInfinite: useMesaInfinite(1, 4),
+            sportsInfinite: useSportsInfinite(1, 1),
         });
 
         const redirectToPistas = (item) => {
@@ -42,20 +53,21 @@ export default {
                 // capacity: 0,
                 // order: 0,
                 // name_mesa: "",
-                // page: 1,
-                // limit: 9,
+                page: 1,
+                limit: 3,
             };
-            // console.log(filters);
+
+
             const filters_ = btoa(JSON.stringify(filters));
             // console.log( { filters: filters_ } );
             router.push({ name: "pistas_cli_filters", params: { filters: filters_ } });
         }
 
-        // const addInfinite = (page) => {
-        //     state.mesasInfinite = useMesaInfinite(page, 4);
-        // }
+        const addInfinite = (page) => {
+            state.sportsInfinite = useSportsInfinite(page, 3);
+        }
 
-        return { state, redirectToPistas, emitAction };
+        return { state, redirectToPistas, emitAction, addInfinite};
     }
 }
 </script>

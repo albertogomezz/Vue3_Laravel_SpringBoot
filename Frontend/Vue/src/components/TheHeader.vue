@@ -14,7 +14,7 @@
           <template #end>
               <div class="flex align-items-center gap-2">
                   <InputText placeholder="Search" type="text" class="w-8rem sm:w-auto" />
-                  <!-- <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" shape="circle" /> -->
+                  <!-- <Button icon="pi pi-search" class="p-button-rounded p-button-success p-mr-6"></Button> -->
               </div>
           </template>
       </Menubar>

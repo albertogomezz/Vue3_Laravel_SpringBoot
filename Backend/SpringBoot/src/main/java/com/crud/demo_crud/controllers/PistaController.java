@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.crud.demo_crud.model.Pista;
@@ -33,6 +32,9 @@ public class PistaController {
 	public ResponseEntity<List<Pista>> getAll(@ModelAttribute PistaQueryParam pistaQueryParam) {
 		try {
 			List<Pista> pistas = new ArrayList<Pista>();
+
+
+			
 			//SPORTS FILTER
 			if (pistaQueryParam.getSports().length > 0 ) {
 				pistaRepository.findSportsinPistas(pistaQueryParam.getSports()).forEach(pistas::add);
