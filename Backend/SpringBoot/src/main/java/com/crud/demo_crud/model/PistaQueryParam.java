@@ -10,10 +10,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PistaQueryParam {
-    private Integer capacity;
     private String[] sports;
     private Integer order;
-    private String name_mesa;
+    private String name_pista;
     private Integer page;
     private Integer limit;
 }

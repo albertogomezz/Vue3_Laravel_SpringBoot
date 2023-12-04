@@ -7,9 +7,7 @@
 import { reactive, computed } from 'vue';
 import { useStore } from 'vuex';
 import Constant from '../Constant';
-// import Carousel from 'primevue/carousel';
 import { useRouter } from 'vue-router';
-// import '../components/carousel.vue';
 import Carousel from '../components/carousel.vue';
 import { getCurrentInstance } from 'vue';
 
@@ -42,8 +40,8 @@ export default {
                 // capacity: 0,
                 // order: 0,
                 // name_mesa: "",
-                // page: 1,
-                // limit: 9,
+                page: 1,
+                limit: 9,
             };
             // console.log(filters);
             const filters_ = btoa(JSON.stringify(filters));

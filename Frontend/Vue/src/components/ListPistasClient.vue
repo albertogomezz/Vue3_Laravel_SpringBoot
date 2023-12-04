@@ -1,7 +1,7 @@
 <template>
     <!-- <h1>{{ pistas }}</h1> -->
-     <body class="">
-       <div class="container" v-for="pista in pistas">
+    <body class="">
+        <div class="container" v-for="pista in pistas">
             <div class="card float-right">
                 <div class="row">
                     <div class="col-sm-5">
@@ -11,7 +11,6 @@
                     <div class="card-block">
                         <h4 class="card-title">{{ pista.pista_id }}</h4>
                         <p>{{ pista.description }}</p>
-                        <!-- <h4>Que deporte te gustaria practicar?</h4> -->
                         <div class="row tarjetas">
                             <div v-for="deporte in pista.sports" :key="deporte.id" class="col-md-5">
                                 <div class="mini-card">
@@ -41,10 +40,9 @@ export default {
     },
     setup(props){
 
-        // console.log(props.pistas);
+        console.log(props.pistas);
         const router = useRouter();
         
-
         const details = (id) => {
             // console.log(id);
             router.push({ name: "detailsPista", params: { id } })

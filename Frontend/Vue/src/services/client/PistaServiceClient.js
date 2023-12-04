@@ -13,6 +13,7 @@ export default {
                 params_.push(`${item[0]}=${item[1]}`);
             }
         });
+        // console.log(params_.join('&'));
         return params_.join('&')
     },
 
@@ -22,4 +23,7 @@ export default {
     GetOnePista(id) {
         return Api(secrets.URL_SPRING).get('pistas/' + id);
     },
+    GetPistasPaginate(params) {
+        return Api(secrets.URL_SPRING).get(`pistasPaginate?${this.FormatFilters(params)}`);
+    },//GetMesasPaginate
 }

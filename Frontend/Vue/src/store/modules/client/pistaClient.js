@@ -6,6 +6,7 @@ export const pistaClient = {
     mutations: {
         [Constant.GET_PISTAS]: (state, payload) => {
             if (payload) {
+                // console.log(payload);
                 state.pistas = payload;
             }
         },
@@ -19,7 +20,7 @@ export const pistaClient = {
         [Constant.GET_PISTAS]: async (store) => {
             try {
                 const response = await PistaServiceClient.GetPistas();
-                // console.log(response.data);
+                console.log(response.data);
                 store.commit(Constant.GET_PISTAS, response.data);
             } catch (error) {
                 console.error(error)
