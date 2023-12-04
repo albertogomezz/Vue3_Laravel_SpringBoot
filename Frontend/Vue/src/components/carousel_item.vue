@@ -29,30 +29,17 @@ export default {
 </script>
 
 <style lang="scss">
-// .carusel_item {
-//     text-align: center; /* Centra el contenido */
-// }
 
-// .carusel_item img {
-//     width: 380px; /* Ancho de la imagen */
-//     height:320px; /* Alto de la imagen */
-//     object-fit: cover; /* Ajusta la imagen al tamaño del contenedor */
-//     border-radius: 8px; /* Borde redondeado */
-// }
-
-// .carusel_item h2 {
-//     margin-top: 10px; /* Espaciado superior entre la imagen y el título */
-// }
 .carusel_item {
     position: relative;
-    display: inline-block; /* Permite que el contenedor se ajuste al tamaño del contenido */
+    display: inline-block; 
 }
 
 .carusel_item img {
-    width: 380px; /* Ancho de la imagen */
-    height:320px; /* Alto de la imagen */
-    object-fit: cover; /* Ajusta la imagen al tamaño del contenedor */
-    border-radius: 8px; /* Borde redondeado */
+    width: 380px; 
+    height:320px; 
+    object-fit: cover; 
+    border-radius: 8px; 
 }
 
 .carusel_item h2 {
@@ -60,14 +47,11 @@ export default {
     top: 80%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 1; /* Asegura que el h2 esté sobre la imagen */
-    color: white; /* Puedes ajustar el color del texto según tus necesidades */
+    z-index: 1; 
+    color: white; 
     background-color: rgba(0, 0, 0, 0.78);
     padding: 10px 20px;
     border-radius: 10px;
     text-transform: uppercase;
 }
-
-
-
 </style>

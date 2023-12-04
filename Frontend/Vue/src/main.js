@@ -7,7 +7,6 @@ import Toast from 'primevue/toast';
 import Toaster from "@meforma/vue-toaster";
 import Menubar from 'primevue/menubar';
 import Paginate from "vuejs-paginate-next";
-
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'primevue/resources/themes/lara-light-blue/theme.css'       
 import 'primevue/resources/primevue.min.css'                
