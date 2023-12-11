@@ -41,10 +41,10 @@ export default {
         const store = useStore();
         const id = route.params.id;
 
-        store.dispatch(`pistaAdmin/${Constant.GET_ONE_PISTA}`, id)
+        store.dispatch(`pistaClient/${Constant.GET_ONE_PISTA}`, id)
 
         const stateOne = reactive({
-            pista: computed(() => store.getters["pistaAdmin/getOnePista"])
+            pista: computed(() => store.getters["pistaClient/getOnePista"])
         })
 
         // stateOne.pista.is_reserved = Boolean(stateOne.pista.is_reserved);
@@ -58,7 +58,7 @@ export default {
             const store = useStore();
             const stateOne = reactive({
 
-                pista: computed(() => store.getters["pistaAdmin/getOnePista"])
+                pista: computed(() => store.getters["pistaClient/getOnePista"])
             })
             return stateOne.pista.sports.map(sport => sport.sport_name).join(' | ')
         }

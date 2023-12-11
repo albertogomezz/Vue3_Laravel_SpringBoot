@@ -79,8 +79,6 @@
 
             ///////////////////////////////////////////////////////////////
 
-            console.log(state.pistas.length);
-
             onMounted(async () => {
                 state.pistas = await usePistaFilters(filters_URL),
                 state.page = filters_URL.page,

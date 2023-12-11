@@ -9,11 +9,9 @@
                     </div>
                     <div class="col-sm-7">
                     <div class="card-block">
-                        <h4 class="card-title">{{ pista.pista_id }}</h4>
-                        <p>{{ pista.description }}</p>
                         <h4 class="card-title">{{  pista.description }}</h4>
                         <p>{{ pista.pista_id }}</p>
-                        <!-- <h4>Que deporte te gustaria practicar?</h4> -->
+                        <button class="btn btn-primary btn-sm pulse"  @click="details(pista.id)">Detalles</button>
                         <div class="row tarjetas">
                             <div v-for="deporte in pista.sports" :key="deporte.id" class="col-md-5">
                                 <div class="mini-card">
@@ -43,13 +41,13 @@ export default {
     },
     setup(props){
 
-        console.log(props.pistas);
         const router = useRouter();
         
         const details = (id) => {
             // console.log(id);
             router.push({ name: "detailsPista", params: { id } })
         }
+        
     return { details }
     }
 }
@@ -113,7 +111,7 @@ a{
 }
 
 .img-card{
-    height: 300px;
+    height: 336px;
     width: 200px;
 }
 .tarjetas{
