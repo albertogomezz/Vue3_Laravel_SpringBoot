@@ -32,23 +32,23 @@ public class PistaController {
 		try {
 			//ATRIBUTES
 			List<Pista> pistas = new ArrayList<Pista>();
-			Integer limit = pistaQueryParam.getLimit();
-			Integer page = pistaQueryParam.getPage();
-			String[] sports_array = pistaQueryParam.getSports();
-			String sports = "";
-			for (String str : sports_array) {
-				sports += str;
-			}
-			Integer offset = (page - 1) * limit;
+			// Integer limit = pistaQueryParam.getLimit();
+			// Integer page = pistaQueryParam.getPage();
+			// String[] sports_array = pistaQueryParam.getSports();
+			// String sports = "";
+			// for (String str : sports_array) {
+			// 	sports += str;
+			// }
+			// Integer offset = (page - 1) * limit;
 
 
 
-			// 	SPORTS FILTER
-			if (sports_array.length > 0 ) {
-				pistaRepository.findSportsinPistas(sports,limit,offset).forEach(pistas::add);
-			// 	NO FILTERS
-			} else {
-				pistaRepository.listPistasWithoutFilters(limit,offset).forEach(pistas::add);
+			// // 	SPORTS FILTER
+			// if (sports_array.length > 0 ) {
+			// 	pistaRepository.findSportsinPistas(sports,limit,offset).forEach(pistas::add);
+			// // 	NO FILTERS
+			// } else {
+			// 	pistaRepository.listPistasWithoutFilters(limit,offset).forEach(pistas::add);
 			//ONLY SPORTS FILTER
 			if (pistaQueryParam.getSports().length > 0 && pistaQueryParam.getReservation() == 2 && pistaQueryParam.getOrder() == 2 ) {    //DONE
 				// pistaRepository.findSportsinPistas(pistaQueryParam.getSports()).forEach(pistas::add);
