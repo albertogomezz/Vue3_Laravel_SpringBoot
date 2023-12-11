@@ -1,39 +1,96 @@
 <template>
-
-<div  v-if="pistas.length  >= 1">
-    <ListPistas :pistas="pistas" />
+ <div class="filters">
+        <filters @filters="ApplyFilters" @deleteFilters="deleteAllFilters" :filters="filters_URL" />
 </div>
+    <div v-if="state.pistas.length >= 1">
+        <ListPistas :pistas="state.pistas" />
+    </div>
+
     <h1 v-else>😔😔LO SIENTO, NO HAY PISTAS DISPONIBLES PARA ESTE DEPORTE😔😔 </h1>
     
 </template>
 
 <script>
     import { ref, onMounted } from 'vue';
-    import { useRoute } from 'vue-router';
+    import { useRouter, useRoute } from 'vue-router';
     import ListPistas from '../../components/ListPistasClient.vue';
     import { usePistaFilters } from '../../../src/composables/pistas/usePistas';
+    import  filters from '../../components/filters.vue'
+    import { reactive, computed } from 'vue';
+    import { useStore } from 'vuex';
     
     export default {
-        components: { ListPistas },
+        components: { ListPistas, filters },
         setup() {
             const route = useRoute();
+            const router = useRouter();
             const pistas = ref([]);
-        
+            const store = useStore();
+            const page = ref([]);
+            const totalPages = ref([]);
+
+
             let filters_URL = {
                 sports: [],
+                reservation: 2,
+                order: 2,
+                // sport_name: "",
+                page: 1,
+                limit: 9,
             };
         
             try {
                 if (route.params.filters !== '') {
                 filters_URL = JSON.parse(atob(route.params.filters));
+                console.log('hola');
                 }
             } catch (error) {}
-        
+
+
+            const state = reactive({
+                pistas: usePistaFilters(filters_URL),
+                // page: filters_URL.page,
+                // totalPages: usePistaPaginate(filters_URL)
+            });
+
+
             onMounted(async () => {
-                pistas.value = await usePistaFilters(filters_URL);
+                state.pistas = await usePistaFilters(filters_URL)
+                // state.page = filters_URL.page,
+                // state.totalPages = usePistaPaginate(filters_URL)
             });
         
-            return { pistas };
+        const ApplyFilters = (filters) => {
+            // console.log(filters);
+            const filters_64 = btoa(JSON.stringify(filters));
+            router.push({ name: "pistas_cli_filters", params: { filters: filters_64 } });
+            state.pistas = usePistaFilters(filters);
+            // state.totalPages = useMesaPaginate(filters);
+
+        }
+
+        const deleteAllFilters = (deleteFilters) => {
+            router.push({ name: "pistas_cli" });
+            state.pistas = usePistaFilters(deleteFilters);
+            console.log(state.pistas);
+            state.page = 1;
+            filters_URL = deleteFilters;
+            // state.totalPages = useMesaPaginate(deleteFilters);
+        }
+            return { state, ApplyFilters ,deleteAllFilters, filters_URL };
         },
     };
 </script>
+<style scoped>
+    .paginate {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .filters{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    justify-content: center;
+    width: 100%;
+}
+</style>

@@ -1,5 +1,4 @@
 <template>
-    <!-- <h1>{{ pistas }}</h1> -->
      <body class="">
        <div class="container" v-for="pista in pistas">
             <div class="card float-right">
@@ -11,7 +10,6 @@
                     <div class="card-block">
                         <h4 class="card-title">{{  pista.description }}</h4>
                         <p>{{ pista.pista_id }}</p>
-                        <!-- <h4>Que deporte te gustaria practicar?</h4> -->
                         <div class="row tarjetas">
                             <div v-for="deporte in pista.sports" :key="deporte.id" class="col-md-5">
                                 <div class="mini-card">
@@ -34,8 +32,9 @@
 
 <script>
 import { useRoute, useRouter } from 'vue-router'
-export default {
 
+
+export default {
     props: {
         pistas: Object,
     },
@@ -118,4 +117,5 @@ a{
 .tarjetas{
     justify-content: center;
 }
+
 </style>

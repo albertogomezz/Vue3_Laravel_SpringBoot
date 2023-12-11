@@ -44,14 +44,14 @@ export default {
 
         const state = reactive({
             sports: computed(() => store.getters['sportClient/getSports']),
-            sportsInfinite: useSportsInfinite(1, 1),
+            sportsInfinite: useSportsInfinite(1, 3),
         });
 
         const redirectToPistas = (item) => {
             const filters = {
                 sports: [item],
                 // capacity: 0,
-                // order: 0,
+                order: 0,
                 // name_mesa: "",
                 page: 1,
                 limit: 3,

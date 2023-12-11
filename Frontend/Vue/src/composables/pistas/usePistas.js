@@ -12,8 +12,7 @@ export const usePistaFilters = async (filters = {}) => {
   } catch (error) {
     console.error(error);
   }
-
-  return pistas.value;
+  return pistas;
 };
 
 // export const usePistaPaginate = (filters = {}) => {
@@ -32,7 +31,6 @@ export const usePistaFilters = async (filters = {}) => {
 
 export const useSportsInfinite = (page = 1, limit = 3) => {
   const sports = ref([]);
-  // console.log(page, limit);
   SportService.GetSportInfinite(page, limit)
       .then(res => sports.value = res.data)
       .catch(error => console.error(error))
