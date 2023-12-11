@@ -31,7 +31,6 @@ export const usePistaPaginate = (filters = {}) => {
 
 export const useSportsInfinite = (page = 1, limit = 3) => {
   const sports = ref([]);
-  // console.log(page, limit);
   SportService.GetSportInfinite(page, limit)
       .then(res => sports.value = res.data)
       .catch(error => console.error(error))

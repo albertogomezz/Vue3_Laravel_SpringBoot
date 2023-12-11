@@ -1,7 +1,6 @@
 <template>
-    <!-- <h1>{{ pistas }}</h1> -->
-    <body class="">
-        <div class="container" v-for="pista in pistas">
+     <body class="">
+       <div class="container" v-for="pista in pistas">
             <div class="card float-right">
                 <div class="row">
                     <div class="col-sm-5">
@@ -34,8 +33,9 @@
 
 <script>
 import { useRoute, useRouter } from 'vue-router'
-export default {
 
+
+export default {
     props: {
         pistas: Object,
     },
@@ -117,4 +117,5 @@ a{
 .tarjetas{
     justify-content: center;
 }
+
 </style>

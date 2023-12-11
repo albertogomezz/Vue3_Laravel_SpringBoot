@@ -14,7 +14,7 @@
           <template #end>
               <div class="flex align-items-center gap-2">
                   <InputText placeholder="Search" type="text" class="w-8rem sm:w-auto" />
-                  <!-- <Button icon="pi pi-search" class="p-button-rounded p-button-success p-mr-6"></Button> -->
+                  <!-- <Button icon="pi pi-search" class="p-button-rounded  p-mr-1"></Button> -->
               </div>
           </template>
       </Menubar>

@@ -12,6 +12,7 @@ import lombok.Setter;
 public class PistaQueryParam {
     private String[] sports;
     private Integer order;
+    private Integer reservation;
     private String name_pista;
     private Integer page;
     private Integer limit;
