@@ -27,89 +27,76 @@ public class PistaController {
 	PistaRepository pistaRepository;
 
 	@GetMapping("/pistas")
-		// public ResponseEntity<List<Pista>> getAll(@ModelAttribute PistaQueryParam pistaQueryParam) {
 	public ResponseEntity <List<Pista>> getAll(@ModelAttribute PistaQueryParam pistaQueryParam) {
 		try {
 			//ATRIBUTES
 			List<Pista> pistas = new ArrayList<Pista>();
-			// Integer limit = pistaQueryParam.getLimit();
-			// Integer page = pistaQueryParam.getPage();
-			// String[] sports_array = pistaQueryParam.getSports();
-			// String sports = "";
-			// for (String str : sports_array) {
-			// 	sports += str;
-			// }
-			// Integer offset = (page - 1) * limit;
+			Integer limit = pistaQueryParam.getLimit();
+			Integer offset = ( pistaQueryParam.getPage() - 1) * limit;
 
 
-
-			// // 	SPORTS FILTER
-			// if (sports_array.length > 0 ) {
-			// 	pistaRepository.findSportsinPistas(sports,limit,offset).forEach(pistas::add);
-			// // 	NO FILTERS
-			// } else {
-			// 	pistaRepository.listPistasWithoutFilters(limit,offset).forEach(pistas::add);
 			//ONLY SPORTS FILTER
 			if (pistaQueryParam.getSports().length > 0 && pistaQueryParam.getReservation() == 2 && pistaQueryParam.getOrder() == 2 ) {    //DONE
-				// pistaRepository.findSportsinPistas(pistaQueryParam.getSports()).forEach(pistas::add);
+				pistaRepository.findSportsinPistas(pistaQueryParam.getSports(), pistaQueryParam.getLimit(), offset).forEach(pistas::add);
 			}//ONLY ORDER BY PRICE FILTER
 			else if (pistaQueryParam.getOrder() != 2 && pistaQueryParam.getReservation() == 2 && pistaQueryParam.getSports().length <= 0){ //DONE
 				//ASC
 				if (pistaQueryParam.getOrder() == 0){
-					pistaRepository.OrderByASCinPistas().forEach(pistas::add);
+					pistaRepository.OrderByASCinPistas(pistaQueryParam.getLimit(), offset).forEach(pistas::add);
 				}else{ //DESC
-					pistaRepository.OrderByDESCinPistas().forEach(pistas::add);
+					pistaRepository.OrderByDESCinPistas(pistaQueryParam.getLimit(), offset).forEach(pistas::add);
 
 				}
 			} //ONLY RESERVATION FILTER																													
 			else if (pistaQueryParam.getReservation() < 2 && pistaQueryParam.getOrder() == 2 && pistaQueryParam.getSports().length <= 0){	  //DONE
 				if(pistaQueryParam.getReservation() == 0){ //NON RESERVED
-					pistaRepository.findNoNReservedPista().forEach(pistas::add);
+					pistaRepository.findNoNReservedPista(pistaQueryParam.getLimit(), offset).forEach(pistas::add);
 				}else{ //RESERVED
-					pistaRepository.findReservedPista().forEach(pistas::add);
+					pistaRepository.findReservedPista(pistaQueryParam.getLimit(), offset).forEach(pistas::add);
 				}	
 			}
 			//SPORTS AND ORDER PRICE FILTER
 			else if(pistaQueryParam.getSports().length > 0  && pistaQueryParam.getOrder() != 2  && pistaQueryParam.getReservation() == 2){	//DONE
 				if (pistaQueryParam.getOrder() == 0){ 
-					pistaRepository.findSportOrderedASCinPista(pistaQueryParam.getSports()).forEach(pistas::add);
+					pistaRepository.findSportOrderedASCinPista(pistaQueryParam.getSports(), pistaQueryParam.getLimit(), offset).forEach(pistas::add);
 					// OrderByASCinPistas
 				}else{
-					pistaRepository.findSportOrderedDESCinPista(pistaQueryParam.getSports()).forEach(pistas::add);
+					pistaRepository.findSportOrderedDESCinPista(pistaQueryParam.getSports(),  pistaQueryParam.getLimit(), offset).forEach(pistas::add);
 					// OrderByDESCinPistas
 				}
 			} //SPORTS AND RESERVATION FILTER 
 			else if(pistaQueryParam.getSports().length > 0  && pistaQueryParam.getOrder() == 2  && pistaQueryParam.getReservation() < 2){ //DONE
 				if(pistaQueryParam.getReservation() == 0){ //NON RESERVED
-					pistaRepository.findSportNoNReservedPista(pistaQueryParam.getSports()).forEach(pistas::add);
+					pistaRepository.findSportNoNReservedPista(pistaQueryParam.getSports(), pistaQueryParam.getLimit(), offset).forEach(pistas::add);
 				}else{ //RESERVED
-					pistaRepository.findSportReservedPista(pistaQueryParam.getSports()).forEach(pistas::add);
+					pistaRepository.findSportReservedPista(pistaQueryParam.getSports(), pistaQueryParam.getLimit(), offset).forEach(pistas::add);
 				}	
 			}
 			else if (pistaQueryParam.getSports().length <= 0 && pistaQueryParam.getOrder() < 2 && pistaQueryParam.getReservation() < 2) {
 				if (pistaQueryParam.getOrder() == 0 && pistaQueryParam.getReservation() == 0) { // Order: ASC, Reservation: Non-reserved
-					pistaRepository.findOrderedASCNoNReservedPista().forEach(pistas::add);
+					pistaRepository.findOrderedASCNoNReservedPista(pistaQueryParam.getLimit(), offset).forEach(pistas::add);
 				} else if (pistaQueryParam.getOrder() == 0 && pistaQueryParam.getReservation() == 1) { // Order: ASC, Reservation: Reserved
-					pistaRepository.findOrderedASCReservedPista().forEach(pistas::add);
+					pistaRepository.findOrderedASCReservedPista(pistaQueryParam.getLimit(), offset).forEach(pistas::add);
 				} else if (pistaQueryParam.getOrder() == 1 && pistaQueryParam.getReservation() == 0) { // Order: DESC, Reservation: Non-reserved
-					pistaRepository.findOrderedDESCNoNReservedPista().forEach(pistas::add);
+					pistaRepository.findOrderedDESCNoNReservedPista(pistaQueryParam.getLimit(), offset).forEach(pistas::add);
 				} else if (pistaQueryParam.getOrder() == 1 && pistaQueryParam.getReservation() == 1) { // Order: DESC, Reservation: Reserved
-					pistaRepository.findOrderedDESCReservedPista().forEach(pistas::add);
+					pistaRepository.findOrderedDESCReservedPista(pistaQueryParam.getLimit(), offset).forEach(pistas::add);
 				}
 			} else if (pistaQueryParam.getSports().length > 0 && pistaQueryParam.getOrder() < 2 && pistaQueryParam.getReservation() < 2) {
 				if (pistaQueryParam.getOrder() == 0 && pistaQueryParam.getReservation() == 0) { // Order: ASC, Reservation: Non-reserved
-					pistaRepository.findSportOrderedASCNoNReservedPista(pistaQueryParam.getSports()).forEach(pistas::add);
+					pistaRepository.findSportOrderedASCNoNReservedPista(pistaQueryParam.getSports(), pistaQueryParam.getLimit(), offset).forEach(pistas::add);
 				} else if (pistaQueryParam.getOrder() == 0 && pistaQueryParam.getReservation() == 1) { // Order: ASC, Reservation: Reserved
-					pistaRepository.findSportOrderedASCReservedPista(pistaQueryParam.getSports()).forEach(pistas::add);
+					pistaRepository.findSportOrderedASCReservedPista(pistaQueryParam.getSports(), pistaQueryParam.getLimit(), offset).forEach(pistas::add);
 				} else if (pistaQueryParam.getOrder() == 1 && pistaQueryParam.getReservation() == 0) { // Order: DESC, Reservation: Non-reserved
-					pistaRepository.findSportOrderedDESCNoNReservedPista(pistaQueryParam.getSports()).forEach(pistas::add);
+					pistaRepository.findSportOrderedDESCNoNReservedPista(pistaQueryParam.getSports(), pistaQueryParam.getLimit(), offset).forEach(pistas::add);
 				} else if (pistaQueryParam.getOrder() == 1 && pistaQueryParam.getReservation() == 1) { // Order: DESC, Reservation: Reserved
-					pistaRepository.findSportOrderedDESCReservedPista(pistaQueryParam.getSports()).forEach(pistas::add);
+					pistaRepository.findSportOrderedDESCReservedPista(pistaQueryParam.getSports(), pistaQueryParam.getLimit(), offset).forEach(pistas::add);
 				}
 			}
 			//NO FILTERS ordered by price 
 			else{ 
-				pistaRepository.OrderByDESCinPistas().forEach(pistas::add);
+				pistaRepository.listPistasWithoutFilters(pistaQueryParam.getLimit(), offset).forEach(pistas::add);
+
 			}
 			return new ResponseEntity<>(pistas, HttpStatus.OK);
 		} catch (Exception e) {
@@ -137,28 +124,66 @@ public class PistaController {
 	//GET ALL PAGINATE
 	@GetMapping("/pistasPaginate")
 	public ResponseEntity<Integer> getAllPitasPagination(@ModelAttribute PistaQueryParam pistaQueryParam) {
+		
 		try {
-			// pistaQueryParam.setName_pista(pistaQueryParam.getName_pista() + '%');
+			//COUNT SOLO SPORTS
 			Integer total = 0;
-			// Only capacity
-			// if (mesaQueryParam.getCategories().length == 0 && mesaQueryParam.getCapacity() > 0) {
-			// 	total = mesaRepository.findByCapacityPaginate(mesaQueryParam.getCapacity(),
-			// 			mesaQueryParam.getName_mesa());
-			// }
-			// Only categories
-			// else if (mesaQueryParam.getCategories().length > 0 && mesaQueryParam.getCapacity() == 0) {
-			// 	total = mesaRepository.findCategoriesOnMesaPaginate(mesaQueryParam.getCategories(),
-			// 			mesaQueryParam.getName_mesa());
-			// }
-			// Categories with capacity
-			// else if (mesaQueryParam.getCategories().length > 0 && mesaQueryParam.getCapacity() > 0) {
-			// 	total = mesaRepository.findByCapacityAndCategoriesPaginate(mesaQueryParam.getCapacity(),
-			// 			mesaQueryParam.getCategories(),
-			// 			mesaQueryParam.getName_mesa());
-			// }
-			// else {
-				total = pistaRepository.findAllPistas();
-			// }
+			if (pistaQueryParam.getSports().length > 0 && pistaQueryParam.getReservation() == 2 && pistaQueryParam.getOrder() == 2 ) {    //DONE
+				total = pistaRepository.countSportsinPistas(pistaQueryParam.getSports());
+			} 
+			// COUNT ORDER BY
+			else if (pistaQueryParam.getOrder() != 2 && pistaQueryParam.getReservation() == 2 && pistaQueryParam.getSports().length <= 0){ //DONE
+					total = pistaRepository.countByDESCinPistas();
+			} 
+			//COUNT RESERVED
+			else if (pistaQueryParam.getReservation() < 2 && pistaQueryParam.getOrder() == 2 && pistaQueryParam.getSports().length <= 0){	  //DONE
+				if(pistaQueryParam.getReservation() == 0){ //NON RESERVED
+				total =	pistaRepository.countNoNReservedPista();
+				}else{ //RESERVED
+					total = pistaRepository.countReservedPista();
+				}
+			} //COUNT SPORTS + ORDER BY 
+			else if(pistaQueryParam.getSports().length > 0 && pistaQueryParam.getReservation() == 2 && pistaQueryParam.getOrder() < 2) {
+				if (pistaQueryParam.getOrder() == 0){ 
+					total = pistaRepository.countSportOrderedASCinPista(pistaQueryParam.getSports());
+					// OrderByASCinPistas
+				}else{
+					total = pistaRepository.countSportOrderedDESCinPista(pistaQueryParam.getSports());
+					// OrderByDESCinPistas
+				}
+			} //COUNT SPORTS + RESERVATION
+			else if(pistaQueryParam.getSports().length > 0  && pistaQueryParam.getOrder() == 2  && pistaQueryParam.getReservation() < 2){ //DONE
+				if(pistaQueryParam.getReservation() == 0){ //NON RESERVED
+					total = pistaRepository.countSportNoNReservedPista(pistaQueryParam.getSports());
+				}else{ //RESERVED
+					total = pistaRepository.countSportReservedPista(pistaQueryParam.getSports());
+				}	
+			}//ORDER + RESERVATION
+			else if (pistaQueryParam.getSports().length <= 0 && pistaQueryParam.getOrder() < 2 && pistaQueryParam.getReservation() < 2) {
+				if (pistaQueryParam.getOrder() == 0 && pistaQueryParam.getReservation() == 0) { // Order: ASC, Reservation: Non-reserved
+					total = pistaRepository.countOrderedASCNoNReservedPista();
+				} else if (pistaQueryParam.getOrder() == 0 && pistaQueryParam.getReservation() == 1) { // Order: ASC, Reservation: Reserved
+					total = pistaRepository.countOrderedASCReservedPista();
+				} else if (pistaQueryParam.getOrder() == 1 && pistaQueryParam.getReservation() == 0) { // Order: DESC, Reservation: Non-reserved
+					total = pistaRepository.countOrderedDESCNoNReservedPista();
+				} else if (pistaQueryParam.getOrder() == 1 && pistaQueryParam.getReservation() == 1) { // Order: DESC, Reservation: Reserved
+					total = pistaRepository.countOrderedDESCReservedPista();
+				}
+			}//SPORTS + ORDER + RESERVATION
+			else if (pistaQueryParam.getSports().length > 0 && pistaQueryParam.getOrder() < 2 && pistaQueryParam.getReservation() < 2) {
+				if (pistaQueryParam.getOrder() == 0 && pistaQueryParam.getReservation() == 0) { // Order: ASC, Reservation: Non-reserved
+					total = pistaRepository.countSportOrderedASCNoNReservedPista(pistaQueryParam.getSports());
+				} else if (pistaQueryParam.getOrder() == 0 && pistaQueryParam.getReservation() == 1) { // Order: ASC, Reservation: Reserved
+					total = pistaRepository.countSportOrderedASCReservedPista(pistaQueryParam.getSports());
+				} else if (pistaQueryParam.getOrder() == 1 && pistaQueryParam.getReservation() == 0) { // Order: DESC, Reservation: Non-reserved
+					total = pistaRepository.countSportOrderedDESCNoNReservedPista(pistaQueryParam.getSports());
+				} else if (pistaQueryParam.getOrder() == 1 && pistaQueryParam.getReservation() == 1) { // Order: DESC, Reservation: Reserved
+					total = pistaRepository.countSportOrderedDESCReservedPista(pistaQueryParam.getSports());
+				}
+			}
+			else {
+				total = pistaRepository.countAllPistas();
+			}
 
 			return new ResponseEntity<>(total, HttpStatus.OK);
 		} catch (Exception e) {

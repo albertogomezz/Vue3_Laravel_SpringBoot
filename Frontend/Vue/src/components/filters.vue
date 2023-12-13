@@ -53,7 +53,7 @@ export default {
     });
 
 
-     function sendFilters(){
+    function sendFilters(){
       console.log(state.filters);
       emit('filters', state.filters);
     }
@@ -63,8 +63,7 @@ export default {
             // state.filters.sport_name = "";
             state.filters.reservation = 2;
             state.filters.page = 1;
-            state.filters.limit = 9;
-            console.log(state.filters);
+            state.filters.limit = 3;
             emit('deleteFilters', state.filters);
         }//sendFilters
 

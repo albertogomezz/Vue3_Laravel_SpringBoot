@@ -18,15 +18,12 @@
 </template>
 
 <script>
-    import { usePistaFilters } from '../../../src/composables/pistas/usePistas';
+    import { usePistaFilters, usePistaPaginate } from '../../../src/composables/pistas/usePistas';
     import  filters from '../../components/filters.vue'
-    import { reactive, computed } from 'vue';
     import { useStore } from 'vuex';
     import { ref, onMounted, reactive } from 'vue';
     import { useRouter, useRoute } from 'vue-router';
-    import ListPistas from '../../components/ListPistas.vue';
-    import { usePistaFilters } from '../../../src/composables/pistas/usePistas';
-    import { usePistaPaginate } from '../../../src/composables/pistas/usePistas';
+    import ListPistas from '../../components/ListPistasClient.vue';
     import Paginate from 'vuejs-paginate-next';
     
     export default {
@@ -54,22 +51,22 @@
             try {
                 if (route.params.filters !== '') {
                 filters_URL = JSON.parse(atob(route.params.filters));
-                console.log('hola');
+                // console.log('hola');
                 }
             } catch (error) {}
 
 
             const state = reactive({
                 pistas: usePistaFilters(filters_URL),
-                // page: filters_URL.page,
-                // totalPages: usePistaPaginate(filters_URL)
+                page: filters_URL.page,
+                totalPages: usePistaPaginate(filters_URL)
             });
 
 
             onMounted(async () => {
                 state.pistas = await usePistaFilters(filters_URL)
-                // state.page = filters_URL.page,
-                // state.totalPages = usePistaPaginate(filters_URL)
+                state.page = filters_URL.page,
+                state.totalPages = usePistaPaginate(filters_URL)
             });
         
         const ApplyFilters = (filters) => {
@@ -77,19 +74,35 @@
             const filters_64 = btoa(JSON.stringify(filters));
             router.push({ name: "pistas_cli_filters", params: { filters: filters_64 } });
             state.pistas = usePistaFilters(filters);
-            // state.totalPages = useMesaPaginate(filters);
-
+            state.totalPages = usePistaPaginate(filters);
+            // state.totalPages = 4; 
         }
 
         const deleteAllFilters = (deleteFilters) => {
             router.push({ name: "pistas_cli" });
             state.pistas = usePistaFilters(deleteFilters);
-            console.log(state.pistas);
-            state.page = 1;
+            // console.log(state.pistas);
+            filters_URL.page = 1;
+            filters_URL.limit = 3;
             filters_URL = deleteFilters;
-            // state.totalPages = useMesaPaginate(deleteFilters);
+            state.totalPages = usePistaPaginate(deleteFilters);
         }
-            return { state, ApplyFilters ,deleteAllFilters, filters_URL };
+
+        const clickCallback = (pageNum) => {
+                try {
+                    if (route.params.filters !== '') {
+                        filters_URL = JSON.parse(atob(route.params.filters));
+                    }
+                } catch (error) {
+                }
+                filters_URL.page = pageNum;
+                state.page = pageNum;
+                ApplyFilters(filters_URL)
+                // window.location.reload();
+            }
+
+
+            return { state, ApplyFilters ,deleteAllFilters, clickCallback, filters_URL };
         },
     };
 </script>
