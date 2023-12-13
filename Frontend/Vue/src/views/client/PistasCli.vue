@@ -1,5 +1,5 @@
 <template>
-    <!-- <div  v-if="state.pistas.length  >= 1"> -->
+    <div  v-if="state.pistas.length  >= 1">
         <ListPistas :pistas="state.pistas" />
         <br><br>    
         <paginate class="paginate" v-model="state.page"
@@ -10,8 +10,8 @@
             :container-class="'pagination'"
             :page-class="'page-item'">
         </paginate>
-    <!-- </div> -->
-    <!-- <h1 v-else>😔😔LO SIENTO, NO HAY PISTAS DISPONIBLES PARA ESTE DEPORTE😔😔 </h1> -->
+    </div>
+    <h1 v-else>😔😔LO SIENTO, NO HAY PISTAS DISPONIBLES PARA ESTE DEPORTE😔😔 </h1>
 </template>
 
 <script>

@@ -2,43 +2,54 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class User extends Authenticatable
+//JWT LIBRARY DELETE COMMENT LATER
+//https://laravel-jwt-auth.readthedocs.io/en/latest/
+class User extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    use HasFactory;
     protected $fillable = [
-        'name',
+        'username',
+        'password',
         'email',
-        'password',
+        'type',
+        'is_active',
+        'photo',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
-        'password',
-        'remember_token',
+        'password'
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function create($fields)
+    {
+        return parent::create([
+            'username' => $fields['username'],
+            'password' => bcrypt($fields['password']),
+            'email' => $fields['email'],
+            'type' => 'client',
+            'is_active' =>  isset($fields['is_active']) ? $fields['is_active'] : true, //CHANGE TO FALSE, TRUE ONLY FOR TESTING
+            'photo' =>  isset($fields['photo']) ? $fields['photo'] : 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/1200px-Cat03.jpg',
+        ]);
+    } //create
+
+    public function reservations(): HasMany
+    {
+        return $this->hasMany(Reservation::class);
+    }
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
 }
