@@ -50,9 +50,9 @@ export default {
         const redirectToPistas = (item) => {
             const filters = {
                 sports: [item],
-                // capacity: 0,
-                order: 0,
-                // name_mesa: "",
+                reservation: 2,
+                order: 2,
+                // sport_name: "",
                 page: 1,
                 limit: 3,
             };

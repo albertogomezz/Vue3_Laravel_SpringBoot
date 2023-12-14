@@ -26,7 +26,7 @@ public interface PistaRepository extends JpaRepository<Pista, Long> {
 	@Query(value = "SELECT pp.*, s.price FROM pista pp LEFT JOIN pistas_sports p ON pp.id = p.pista_id LEFT JOIN sport s ON p.sport_id = s.id WHERE s.sport_name IN :sports ORDER BY s.price DESC LIMIT :limit OFFSET :offset ;", nativeQuery = true)
    List<Pista> findSportsinPistas(@Param("sports") String[] sports, @Param("limit") Integer limit, @Param("offset") Integer offset);
    //COUNT SPORTS FILTER
-   @Query(value = "SELECT COUNT(*) FROM pista pp LEFT JOIN pistas_sports p ON pp.id = p.pista_id LEFT JOIN sport s ON p.sport_id = s.id WHERE s.sport_name IN :sports ORDER BY s.price DESC LIMIT :limit OFFSET :offset ;", nativeQuery = true)
+   @Query(value = "SELECT COUNT(*) FROM pista pp LEFT JOIN pistas_sports p ON pp.id = p.pista_id LEFT JOIN sport s ON p.sport_id = s.id WHERE s.sport_name IN :sports ORDER BY s.price DESC ;", nativeQuery = true)
    Integer countSportsinPistas(@Param("sports") String[] sports);
 
 
