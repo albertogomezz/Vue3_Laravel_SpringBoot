@@ -1,6 +1,6 @@
 package com.crud.demo_crud.model;
 
-import java.util.List;
+// import java.util.List;
 // import javax.persistence.*;
 
 import jakarta.persistence.*;
