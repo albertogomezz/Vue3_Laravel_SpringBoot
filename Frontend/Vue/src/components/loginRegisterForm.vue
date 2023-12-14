@@ -179,11 +179,12 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
-        max-width: 80rem;
-        min-height: 100vh;
+        // max-width: 80rem;
+        // min-height: 100vh;
         width: 100%;
         padding: 0 2rem;
         margin: 0 auto;
+        margin-top: 50px;
     }
 
     .ion {
