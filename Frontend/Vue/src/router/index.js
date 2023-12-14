@@ -77,6 +77,18 @@ import { defineAsyncComponent } from 'vue';
             name: "updateSport",
             component: () => import('../views/admin/Sport/SportUpdate.vue')
         },
+        {
+            //LOGIN
+            path: "/login",
+            name: "login_register",
+            component: () => import('../views/Login.vue')
+        },
+        {
+            //REGISTER
+            path: "/register",
+            name: "register",
+            component: () => import('../views/Register.vue'),
+        },
     ]
     })
 
