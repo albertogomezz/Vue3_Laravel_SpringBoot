@@ -13,7 +13,8 @@ export default {
         const store = useStore();
 
         const register = (data) => {
-            store.dispatch(`user/${Constant.ADD_USER}`, data);
+            // console.log(data);
+            store.dispatch(`user/${Constant.REGISTER_USER}`, data);
         }
 
         return { register };

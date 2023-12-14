@@ -13,16 +13,16 @@ export default {
     DELETE_ONE_SPORT: "DeleteOneSport",
     UPDATE_ONE_SPORT: "UpdateOneSport",
 
-    ///USER
-    // INITIALIZE_PROFILE: "InitializeProfile",
-    // INITIALIZE_USER: "InitializeUser",
-    // INITIALIZE_ONE_USER: "InitializeOneUser",
-    // ADD_USER: "AddUser",
-    // DELETE_USER: "DeleteUser",
-    // UPDATE_USER: "UpdateUser",
-    // LOGIN: "Login",
-    // LOGIN_ADMIN: "Login_admin",
-    // LOGOUT: "Logout",
+    // USER
+    GET_PROFILE: "GetProfile",
+    GET_USER: "GetUser",
+    GET_ONE_USER: "GetOneUser",
+    REGISTER_USER: "RegisterUser",
+    DELETE_USER: "DeleteUser",
+    UPDATE_USER: "UpdateUser",
+    LOGIN: "Login",
+    LOGIN_ADMIN: "Login_admin",
+    LOGOUT: "Logout",
 
     //RESERVATION
     // INITIALIZE_RESERVATION: "InitializeReservation",

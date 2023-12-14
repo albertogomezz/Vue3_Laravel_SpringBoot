@@ -32,7 +32,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.crud.demo_crud.model.Pista;
 // import com.crud.demo_crud.model.Reservation;
 
-@CrossOrigin(origins = "http://localhost:5001")
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api")
 public class UserController {

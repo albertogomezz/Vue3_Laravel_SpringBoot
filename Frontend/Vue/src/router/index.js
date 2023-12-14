@@ -80,7 +80,7 @@ import { defineAsyncComponent } from 'vue';
         {
             //LOGIN
             path: "/login",
-            name: "login_register",
+            name: "login",
             component: () => import('../views/Login.vue')
         },
         {

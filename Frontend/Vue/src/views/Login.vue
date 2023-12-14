@@ -1,5 +1,5 @@
 <template>
-    <loginRegisterFormVue :isLogin="true"/>
+    <loginRegisterFormVue :isLogin="true"  @send="login"/>
 </template>
 
 <script>
@@ -9,14 +9,14 @@ import { useStore } from 'vuex';
 
 export default {
     components: { loginRegisterFormVue },
-    // setup() {
-    //     const store = useStore();
-    //     const login = (data) => {
-    //         store.dispatch(`user/${Constant.LOGIN}`, data);
-    //     }
-
-    //     return { login };
-    // }
+    setup() {
+        const store = useStore();
+        const login = (data) => {
+            // console.log(data);
+            store.dispatch(`user/${Constant.LOGIN}`, data);
+        }
+        return { login };
+    }
 }
 </script>
 

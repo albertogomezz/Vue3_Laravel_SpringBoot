@@ -57,7 +57,6 @@ export default {
                 limit: 3,
             };
 
-
             const filters_ = btoa(JSON.stringify(filters));
             // console.log( { filters: filters_ } );
             router.push({ name: "pistas_cli_filters", params: { filters: filters_ } });
