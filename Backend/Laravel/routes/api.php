@@ -6,9 +6,11 @@ use App\Http\Controllers\PistaController;
 use App\Http\Controllers\SportController;
 use App\Http\Controllers\UserController;
 
-Route::resource('pistas', PistaController::class);
-Route::resource('sports', SportController::class);
-Route::resource('users', UserController::class);
+Route::group(['middleware' => ['admin']], function () {
+    Route::resource('pistas', PistaController::class);
+    Route::resource('sports', SportController::class);
+    Route::resource('users', UserController::class);
+});
 
 Route::post('login', [UserController::class, 'login']);
 Route::post('logout', [UserController::class, 'logout']);

@@ -24,9 +24,9 @@
         </router-link>
       </template>
       <template #end>
-        <router-link :to="item_login.find((item) => item.label === 'Login')?.router">
+        <router-link v-for="loginItem in item_login" :key="loginItem.label" :to="loginItem.router">
           <a v-ripple style="margin-right: 50px;">
-            <span>{{ item_login.find((item) => item.label === 'Login')?.label }}</span>
+            <span>{{ loginItem.label }}</span>
             <i class="bi bi-person-circle"></i>
           </a>
         </router-link>
@@ -36,33 +36,94 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted, reactive, computed } from "vue";
 
-const items = ref([
-  {
-    label: 'Home',
-    router: '/home',
-  },
-  {
-    label: 'Pistas Admin',
-    router: '/admin/pistas',
-  },
-  {
-    label: 'Pistas Client',
-    router: '/pistas',
-  },
-  {
-    label: 'Sports Admin',
-    router: '/admin/sports',
+let user = reactive({
+  auth: null,
+  token: null,
+  isAdmin: null,
+  token_admin: null
+});
+
+onMounted(() => {
+  //user info
+  user.auth = window.localStorage.getItem('isAuth');
+  user.token = window.localStorage.getItem('token');
+  
+  //admin info
+  user.isAdmin = window.localStorage.getItem('isAdmin');
+  user.token_admin = window.localStorage.getItem('token_admin');
+  // console.log(user.isAdmin);
+  // console.log(user.token_admin);
+});
+
+//NO REGISTRADO
+
+let items = computed(() => {
+  if (!user.auth && !user.token) {
+    console.log('no registrado');
+    return [
+      {
+        label: 'Home',
+        router: '/home',
+      },
+      {
+        label: 'Pistas',
+        router: '/pistas',
+      }
+    ];
+  } else if (user.auth === 'true' && user.token) {
+    if(user.isAdmin === 'true'  && user.token_admin){
+      
+      console.log('admin');
+      return [
+        {
+          label: 'Pistas Admin',
+          router: '/admin/pistas',
+        },
+        {
+          label: 'Sports Admin',
+          router: '/admin/sports',
+        }
+      ];
+    } else {
+      console.log('client');
+      return [
+        {
+          label: 'Home',
+          router: '/home',
+        },
+        {
+          label: 'Pistas',
+          router: '/pistas',
+        }
+      ];
+    }
+    console.log('registrado');
   }
-]);
+});
 
-const item_login = ref([
-  {
-    label: 'Login',
-    router: '/login',
-  },
-]);
+let item_login = computed(() => {
+  if (!user.auth && !user.token) {
+    return [
+      {
+        label: 'Login',
+        router: '/login',
+      },
+    ];
+  } else if (user.auth === 'true' && user.token) {
+    return [
+      {
+        label: 'Profile',
+        router: '/login',
+      },
+      {
+        label: 'Logout',
+        router: '/login',
+      },
+    ];
+  }
+});
 
 </script>
 
