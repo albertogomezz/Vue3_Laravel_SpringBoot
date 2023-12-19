@@ -1,16 +1,13 @@
 package com.crud.demo_crud.controllers;
 
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 // import com.crud.demo_crud.model.BlacklistToken;
@@ -21,6 +18,10 @@ import com.crud.demo_crud.repository.PistaRepository;
 // import com.crud.demo_crud.repository.ReservationRepository;
 import com.crud.demo_crud.repository.UserRepository;
 import com.crud.demo_crud.security.jwt.JwtUtils;
+
+import jakarta.servlet.http.HttpServletRequest;
+
+import com.crud.demo_crud.repository.BlacklistTokenRepository;
 import com.crud.demo_crud.security.jwt.AuthTokenFilter;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +30,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.crud.demo_crud.model.BlacklistToken;
 import com.crud.demo_crud.model.Pista;
 // import com.crud.demo_crud.model.Reservation;
 
@@ -40,8 +43,8 @@ public class UserController {
     @Autowired
     private UserRepository UserRepository;
 
-    // @Autowired
-    // private BlacklistTokenRepository BlacklistTokenRepository;
+    @Autowired
+    private  BlacklistTokenRepository blacklistTokenRepository;
 
     @Autowired
     private AuthTokenFilter authTokenFilter;
@@ -115,22 +118,22 @@ public class UserController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logoutUser() { // HttpServletRequest request
-        // try {
-            // String token = authTokenFilter.parseJwt(request);
-            // if (BlacklistTokenRepository.TokenExist(token) == 0) {
-            //     BlacklistToken blacklistToken = new BlacklistToken();
-            //     blacklistToken.setToken(token);
-            //     BlacklistTokenRepository.save(blacklistToken);
-            // }
-            return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<?> logoutUser(HttpServletRequest request) { 
+        try {
+            String token = authTokenFilter.parseJwt(request);
+            if (blacklistTokenRepository.TokenExist(token) == 0) {
+                BlacklistToken blacklistToken = new BlacklistToken();
+                blacklistToken.setToken(token);
+                blacklistTokenRepository.save(blacklistToken);
+                return new ResponseEntity<>(blacklistToken, HttpStatus.OK);
+            }
+            return new ResponseEntity<>( "ya existe creo", HttpStatus.OK);
 
-        // } catch (Exception e) {
-        //     System.err.println(e);
-        //     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        // }
-    }
-
+        } catch (Exception e) {
+            System.err.println(e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+}
 
 
 

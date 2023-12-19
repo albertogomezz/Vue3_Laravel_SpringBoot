@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-// import com.springboot.springboot.repository.BlacklistTokenRepository;
+import com.crud.demo_crud.repository.BlacklistTokenRepository;
 import com.crud.demo_crud.security.services.UserDetailsImpl;
 import io.jsonwebtoken.*;
 
@@ -18,7 +18,7 @@ public class JwtUtils {
   private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
   @Autowired
-  // BlacklistTokenRepository BlacklistTokenRepository;
+  BlacklistTokenRepository BlacklistTokenRepository;
 
   @Value("${spring.app.jwtSecret}")
   private String jwtSecret;
@@ -44,9 +44,9 @@ public class JwtUtils {
 
   public boolean validateJwtToken(String authToken) {
     try {
-      // if (BlacklistTokenRepository.TokenExist(authToken) != 0) {
-      //   return false;
-      // }
+      if (BlacklistTokenRepository.TokenExist(authToken) != 0) {
+        return false;
+      }
       Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
       return true;
     } catch (SignatureException e) {
