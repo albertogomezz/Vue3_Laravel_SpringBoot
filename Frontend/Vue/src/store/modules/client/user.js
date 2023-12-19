@@ -7,7 +7,7 @@ const toaster = createToaster({ "position": "top-right", "duration": 1500 });
 export const user = {
     namespaced: true,
     state: {
-        user: {},
+        // user: {},
         isAuth: false,
         isAdmin: false
     },
@@ -58,7 +58,9 @@ export const user = {
 
         [Constant.GET_PROFILE]: async (store) => {
             try {
+                // console.log("dentro de get profile");
                 const response = await UserService.Profile();
+                // console.log(response);
                 if (response.status === 200) {
                     store.commit(Constant.GET_PROFILE, response.data);
                 }
@@ -99,10 +101,12 @@ export const user = {
         },
 
         [Constant.GET_PROFILE]: (state, payload) => {
+            // console.log(payload);
             if (payload) {
                 state.user = payload;
-                state.isAuth = true;
-                state.isAdmin = payload.type === 'admin';
+                console.log(state.user);
+                // state.isAuth = true;
+                // state.isAdmin = payload.type === 'admin';
                 localStorage.setItem("isAuth", true);
                 localStorage.setItem("isAdmin", payload.type === 'admin');
             }

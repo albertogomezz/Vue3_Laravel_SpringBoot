@@ -14,7 +14,6 @@ import 'primevue/resources/primevue.min.css'
 import  'primeicons/primeicons.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';    
-
 import router from "./router";
 import store from "./store";
 

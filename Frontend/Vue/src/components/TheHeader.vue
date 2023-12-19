@@ -30,6 +30,10 @@
             <i class="bi bi-person-circle"></i>
           </a>
         </router-link>
+        <router-link v-if="user.auth && user.token" to="/profile" style="margin-right: 50px;">
+          <span>{{ state.profile.username }}</span>
+          <img :src="state.profile.photo" alt="Profile Photo" style="width: 30px; height: 30px; border-radius: 50%; margin-left: 10px;" />
+        </router-link>
       </template>
     </Menubar>
   </div>
@@ -37,6 +41,8 @@
 
 <script setup>
 import { ref, onMounted, reactive, computed } from "vue";
+import { useStore } from 'vuex';
+
 
 let user = reactive({
   auth: null,
@@ -45,16 +51,18 @@ let user = reactive({
   token_admin: null
 });
 
+const store = useStore();
+const state = reactive({
+    profile: computed(() => store.getters['user/GetProfile']),
+});
+
 onMounted(() => {
   //user info
   user.auth = window.localStorage.getItem('isAuth');
   user.token = window.localStorage.getItem('token');
-  
   //admin info
   user.isAdmin = window.localStorage.getItem('isAdmin');
   user.token_admin = window.localStorage.getItem('token_admin');
-  // console.log(user.isAdmin);
-  // console.log(user.token_admin);
 });
 
 //NO REGISTRADO
@@ -74,7 +82,6 @@ let items = computed(() => {
     ];
   } else if (user.auth === 'true' && user.token) {
     if(user.isAdmin === 'true'  && user.token_admin){
-      
       console.log('admin');
       return [
         {
@@ -99,7 +106,6 @@ let items = computed(() => {
         }
       ];
     }
-    console.log('registrado');
   }
 });
 
@@ -113,10 +119,6 @@ let item_login = computed(() => {
     ];
   } else if (user.auth === 'true' && user.token) {
     return [
-      {
-        label: 'Profile',
-        router: '/login',
-      },
       {
         label: 'Logout',
         router: '/login',

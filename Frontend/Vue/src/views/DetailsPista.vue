@@ -64,8 +64,8 @@ export default {
         }
     }
 }
-</script scoped>
-<style lang="scss">
+</script>
+<style lang="scss" scoped>
 body.tableMesa {
     font-family: "Roboto", helvetica, arial, sans-serif;
     font-size: 16px;
