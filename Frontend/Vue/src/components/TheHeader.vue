@@ -24,7 +24,7 @@
         </router-link>
       </template>
       <template #end>
-        <router-link v-for="loginItem in item_login" :key="loginItem.label" :to="loginItem.router">
+        <router-link v-for="loginItem in item_login" :key="loginItem.label" :to="loginItem.router" @click="loginItem.label === 'Logout' ? logout() : null">
           <a v-ripple style="margin-right: 50px;">
             <span>{{ loginItem.label }}</span>
             <i class="bi bi-person-circle"></i>
@@ -42,6 +42,7 @@
 <script setup>
 import { ref, onMounted, reactive, computed } from "vue";
 import { useStore } from 'vuex';
+import router from "../router";
 
 
 let user = reactive({
@@ -50,6 +51,11 @@ let user = reactive({
   isAdmin: null,
   token_admin: null
 });
+
+
+function logout() {
+  store.dispatch('user/Logout');
+}
 
 const store = useStore();
 const state = reactive({
@@ -121,7 +127,7 @@ let item_login = computed(() => {
     return [
       {
         label: 'Logout',
-        router: '/login',
+        router: '/home',
       },
     ];
   }

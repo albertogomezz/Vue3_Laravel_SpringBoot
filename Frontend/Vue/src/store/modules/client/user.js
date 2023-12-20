@@ -79,6 +79,10 @@ export const user = {
                 state.user = payload.user;
                 state.isAuth = true;
                 router.push({ name: 'home' });
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2250);
+                
             }
         },
 
@@ -101,14 +105,12 @@ export const user = {
         },
 
         [Constant.GET_PROFILE]: (state, payload) => {
-            // console.log(payload);
             if (payload) {
                 state.user = payload;
-                console.log(state.user);
                 // state.isAuth = true;
                 // state.isAdmin = payload.type === 'admin';
-                localStorage.setItem("isAuth", true);
-                localStorage.setItem("isAdmin", payload.type === 'admin');
+                // localStorage.setItem("isAuth", true);
+                // localStorage.setItem("isAdmin", payload.type === 'admin');
             }
         },
 
@@ -121,6 +123,9 @@ export const user = {
             localStorage.removeItem('isAuth');
             localStorage.removeItem('isAdmin');
             router.push({ name: 'home' });
+            setTimeout(() => {
+                window.location.reload();
+            }, 150);
 
             if (payload.status === 200) {
                 toaster.success('Logout successfuly')
