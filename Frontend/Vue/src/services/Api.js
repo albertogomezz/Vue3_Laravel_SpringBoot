@@ -2,11 +2,14 @@ import axios from 'axios';
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { createToaster } from "@meforma/vue-toaster";
-
 import Constant from '../Constant.js';
-import secrets from "../secrets.js";
+import secrets from "../secrets";
 
 export default (URL) => {
+
+    const toaster = createToaster({ "position": "top-right", "duration": 1500 });
+    const store = useStore();
+    const router = useRouter();
 
     const api = axios.create({
         baseURL: URL
