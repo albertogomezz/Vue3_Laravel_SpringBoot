@@ -38,6 +38,11 @@ import { defineAsyncComponent } from 'vue';
             name: "sports_cli",
             component: () => import('../views/client/SportsCli.vue')
         },
+        {
+            path: "/profile",
+            name: "profile",
+            component: () => import('../views/client/Profile.vue')
+        },
         //ADMINISTRADOR
         //PISTAS
         {
