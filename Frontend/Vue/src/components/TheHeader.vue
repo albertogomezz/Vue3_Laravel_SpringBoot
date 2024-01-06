@@ -52,7 +52,6 @@ let user = reactive({
   token_admin: null
 });
 
-
 function logout() {
   store.dispatch('user/Logout');
 }

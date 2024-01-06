@@ -15,9 +15,22 @@
                             <div v-for="deporte in pista.sports" :key="deporte.id" class="col-md-5">
                                 <div class="mini-card">
                                     <div class="mini-card-body">
-                                    <h3 class="mini-card-title">{{ deporte.sport_name }}</h3>
-                                    <p class="mini-card-price">{{ deporte.price }} €/h</p>
-                                    <a href="#" class="btn btn-primary btn-sm float-right"> Reservar ahora</a>
+                                        <h3 class="mini-card-title">{{ deporte.sport_name }}</h3>
+                                        <p class="mini-card-price">{{ deporte.price }} €/h</p>
+                                        <div v-if="user.auth && user.token">
+                                            <Button label="Reservar ahora" class="btn btn-primary btn-sm float-right" @click="visible = true" />
+                                            <Dialog v-model:visible="visible" modal header="Selecciona tu día">
+                                            <div>
+                                                <Calendar v-model="date" inline showWeek @dateClick="handleDateClick" />
+                                            </div>
+                                            <div class="mt-2">
+                                                <button class="btn btn-primary btn-sm float-right" @click="handleReservation">Reservar</button>
+                                            </div>
+                                            </Dialog>
+                                        </div>
+                                        <div v-else>
+                                            <button class="btn btn-primary btn-sm float-right" @click="redirect_login()">Reservar ahora</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -32,23 +45,64 @@
 </template>
 
 <script>
-import { useRoute, useRouter } from 'vue-router'
-
+import { reactive,ref } from "vue";
+import { useRouter } from 'vue-router'
+import { createToaster } from "@meforma/vue-toaster";
 
 export default {
     props: {
         pistas: Object,
     },
+    data() {
+        return {
+            visible: false,
+            date: null,
+        }
+    },
     setup(props){
 
+        const visible = ref(false);
+        const date = ref();
+        const selectedDate = ref();
+
+        const toaster = createToaster({ "position": "top-right", "duration": 1500 });
         const router = useRouter();
         
         const details = (id) => {
-            // console.log(id);
             router.push({ name: "detailsPista", params: { id } })
         }
-        
-    return { details }
+
+        const redirect_login = () => {
+            toaster.warning("Inicia sesión para poder reservar");
+            setTimeout(() => {
+                router.push({ name: "login" })
+            }, 1500);
+        }
+        let user = reactive({
+            auth: null,
+            token: null,
+        });
+        user.auth = window.localStorage.getItem('isAuth');
+        user.token = window.localStorage.getItem('token');
+
+    return { details, user , redirect_login, visible, date, selectedDate }
+    },
+    methods: {
+        handleReservation() {
+            if (this.date) {
+            // Formato de fecha deseado, puedes ajustarlo según tus necesidades
+            const formattedDate = this.formatDate(this.date);
+
+            // Ahora puedes usar la variable formattedDate según tus necesidades
+            console.log("Fecha seleccionada:", formattedDate);
+            }
+        },
+        formatDate(date) {
+            // Puedes usar bibliotecas como moment.js o simplemente el objeto Date de JavaScript para formatear la fecha
+            // Ejemplo usando el objeto Date:
+            const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+            return new Date(date).toLocaleDateString(undefined, options);
+        }
     }
 }
 </script>
