@@ -23,38 +23,40 @@ class ReservationController extends Controller
         return ReservationResource::make(Reservation::where('id', $id)->firstOrFail());
     }
 
-    public function update(UpdateReservationRequest $request, $id)
-    {
-        $data = $request->except(['user_id', 'pista_id']);
-        $reservation = Reservation::where('id', $id)->firstOrFail();
-        $pista_id = $reservation->pista_id;
+    public function update(Request $request, $id){
+        $data = $request->all();
 
-        if (!isset($data["date"])) {
-            $avalible = 0;
-        } else if ($reservation->type_reservation == $data["type_reservation"] && $reservation->fecha_reserva == $data["fecha_reserva"]) {
-            $avalible = 0;
-        } else if (isset($data["type_reservation"]) && !in_array($data["type_reservation"], $type_reservation_accepted)) {
-            $avalible = 1;
-        } else {
-            $avalible = Reservation::where('fecha_reserva', $data["fecha_reserva"])->where('type_reservation', $data['type_reservation'])->where('mesa_id', $mesa_id)->count();
-        }
+        $reservation = Reservation::findOrFail($id);
 
-        if ($avalible == 0) {
-            $update = Reservation::where('id', $id)->update($data);
-            if ($update == 1) {
-                return response()->json([
-                    "Message" => "Updated correctly"
-                ]);
+        if (isset($data["user_id"])) {
+            $user = User::find($data["user_id"]);
+
+            if ($user) {
+                $reservation->user_id = $data["user_id"];
             } else {
                 return response()->json([
-                    "Status" => "Not found"
-                ], 404);
-            };
-        } else {
-            return response()->json([
-                "Status" => "Already reservated"
-            ], 304);
-        };
+                    "Error" => "The provided user_id does not correspond to an existing user."
+                ]);
+            }
+        }
+
+        if (isset($data["pista_id"])) {
+            $pista = Pista::find($data["pista_id"]);
+
+            if ($pista) {
+                $reservation->pista_id = $data["pista_id"];
+            } else {
+                return response()->json([
+                    "Error" => "The provided pista_id does not correspond to an existing pista."
+                ]);
+            }
+        }
+
+        $reservation->save();
+
+        return response()->json([
+            "Message" => "Reservation updated successfully."
+        ]);
     }
 
     public function destroy($id)

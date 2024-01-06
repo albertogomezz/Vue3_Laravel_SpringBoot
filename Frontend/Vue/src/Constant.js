@@ -25,8 +25,8 @@ export default {
     LOGOUT: "Logout",
 
     //RESERVATION
-    // INITIALIZE_RESERVATION: "InitializeReservation",
-    // INITIALIZE_ONE_RESERVATION: "InitializeOnReservation",
-    // DELETE_RESERVATION: "DeleteReservation",
-    // UPDATE_RESERVATION: "UpdateReservation",
+    GET_RESERVATIONS: "GetReservations",
+    GET_ONE_RESERVATION: "GetOneReservation",
+    DELETE_RESERVATION: "DeleteReservation",
+    UPDATE_RESERVATION: "UpdateReservation",
 }
