@@ -38,6 +38,11 @@ import { defineAsyncComponent } from 'vue';
             name: "sports_cli",
             component: () => import('../views/client/SportsCli.vue')
         },
+        {
+            path: "/profile",
+            name: "profile",
+            component: () => import('../views/client/Profile.vue')
+        },
         //ADMINISTRADOR
         //PISTAS
         {
@@ -77,6 +82,25 @@ import { defineAsyncComponent } from 'vue';
             name: "updateSport",
             component: () => import('../views/admin/Sport/SportUpdate.vue')
         },
+           // RESERVAS
+        {
+            //LIST RESERVAS
+            path: "/admin/reservations",
+            name: "listReservations",
+            component: () => import('../views/admin/Reservations/Reservations.vue')
+        },
+        // {
+        //     //CREATE SPORTS
+        //     path: "/admin/sports/create",
+        //     name: "createSport",
+        //     component: () => import('../views/admin/Sport/SportCreate.vue')
+        // },
+        // {
+        //     //UPDATE SPORTS
+        //     path: "/admin/sports/update/:id",
+        //     name: "updateSport",
+        //     component: () => import('../views/admin/Sport/SportUpdate.vue')
+        // },
         {
             //LOGIN
             path: "/login",

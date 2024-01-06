@@ -5,11 +5,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PistaController;
 use App\Http\Controllers\SportController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ReservationController;
 
 Route::group(['middleware' => ['admin']], function () {
     Route::resource('pistas', PistaController::class);
     Route::resource('sports', SportController::class);
     Route::resource('users', UserController::class);
+    Route::resource('reservation', ReservationController::class);
+
 });
 
 Route::post('login', [UserController::class, 'login']);

@@ -96,6 +96,10 @@ let items = computed(() => {
         {
           label: 'Sports Admin',
           router: '/admin/sports',
+        },
+        {
+          label: 'Reservations Admin',
+          router: '/admin/reservations',
         }
       ];
     } else {

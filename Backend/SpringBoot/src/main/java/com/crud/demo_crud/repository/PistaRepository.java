@@ -167,4 +167,8 @@ public interface PistaRepository extends JpaRepository<Pista, Long> {
    @Query(value = "SELECT COUNT(*) FROM pista pp LEFT JOIN pistas_sports p ON pp.id = p.pista_id LEFT JOIN sport s ON s.id = p.sport_id WHERE s.sport_name IN :sports AND pp.is_reserved IS FALSE ORDER BY s.price DESC ;", nativeQuery = true)
    Integer countSportOrderedDESCNoNReservedPista(@Param("sports") String[] sports);
 
-   }
+   
+
+   @Query(value = "SELECT * FROM pista WHERE id = :pista_id ;", nativeQuery = true)
+   Pista FindOne(@Param("pista_id") Long pista_id);
+}
