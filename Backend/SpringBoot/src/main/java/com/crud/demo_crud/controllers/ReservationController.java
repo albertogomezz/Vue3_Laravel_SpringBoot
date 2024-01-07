@@ -1,10 +1,12 @@
 package com.crud.demo_crud.controllers;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -156,6 +158,27 @@ public class ReservationController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 
+        }
+    }
+
+    @GetMapping("/reservations")
+    public ResponseEntity<List<Reservation>> getUserReservations() {
+        try {
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                    .getPrincipal();
+            User user = UserRepository.findByUsername(userDetails.getUsername()).get();
+
+            if (user == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+            Long user_id = user.getId();
+
+            List<Reservation> userReservations = ReservationRepository.findReservationsByUser(user_id);
+
+            return new ResponseEntity<>(userReservations, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

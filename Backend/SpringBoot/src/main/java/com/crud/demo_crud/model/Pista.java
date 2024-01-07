@@ -37,8 +37,6 @@ public class Pista {
 			@JoinColumn(name = "sport_id") })
 	private Set<Sport> sports = new HashSet<>();
 
-
-
 	public Pista() {
 
 	}

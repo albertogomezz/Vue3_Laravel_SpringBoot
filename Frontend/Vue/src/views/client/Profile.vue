@@ -1,35 +1,38 @@
 <template>
-    <div>
-    <!-- <h1>{{ state.profile }}</h1> -->
-        <header>
-            <div class="container">
-            <div class="profile">
-                <div class="profile-image">
-                <img
-                    :src="state.profile.photo"
-                    alt=""
-                />
-                </div>
+  <div>
+    <header>
+      <div class="container">
+        <div class="profile">
+          <div class="profile-image">
+            <img :src="state.profile.photo" alt="" />
+          </div>
 
-                <div class="profile-user-settings">
-                <h1 class="profile-user-name"> Welcome back <span class="profile-user-name2"> {{state.profile.username}}</span>!</h1>
-                <br>
-                <div class="profile-email">{{state.profile.email}}</div> 
-                <br>
-                <!-- <button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button>  -->
-                </div>
+          <div class="profile-user-settings">
+            <h1 class="profile-user-name">
+              Welcome back <span class="profile-user-name2">{{ state.profile.username }}</span>!
+            </h1>
+            <br />
+            <div class="profile-email">{{ state.profile.email }}</div>
+            <br />
+          </div>
 
-                <div class="profile-stats">
-                <ul>
-                    <li><span class="profile-stat-count">164</span> Accepted</li>
-                    <li><span class="profile-stat-count">188</span> Pending</li>
-                    <li><span class="profile-stat-count">206</span> Canceled</li>
-                </ul>
-                </div>
-            </div>
-            </div>
-        </header>
-    </div>
+          <div class="profile-stats">
+            <ul>
+              <li @click="handleStatClick('Accepted')">
+                <span class="profile-stat-count">{{ state.profile.acceptedCount }}</span> Accepted
+              </li>
+              <li @click="handleStatClick('Pending')">
+                <span class="profile-stat-count">{{ state.profile.pendingCount }}</span> Pending
+              </li>
+              <li @click="handleStatClick('Canceled')">
+                <span class="profile-stat-count">{{ state.profile.canceledCount }}</span> Canceled
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+  </div>
 </template>
 
 <script>
@@ -44,9 +47,27 @@ export default {
             profile: computed(() => store.getters['user/GetProfile']),
         });
 
+        const handleStatClick = (stat) => {
+
+          switch (stat) {
+            case 'Accepted':
+              console.log('Mostrar contenido para Accepted');
+              break;
+            case 'Pending':
+              console.log('Mostrar contenido para Pending');
+              break;
+            case 'Canceled':
+              console.log('Mostrar contenido para Canceled');
+              break;
+            default:
+              break;
+          }
+        };
+
         return {
-            state
-        }
+          state,
+          handleStatClick,
+        };
 
     }
 }

@@ -35,12 +35,10 @@ public class Reservation {
     @JsonIgnore
     private User user;
 
-    
     @Column(name = "date")
     private Date date;
 
     @Column(name = "state")
     private Integer state;
-
-
+    
 }
