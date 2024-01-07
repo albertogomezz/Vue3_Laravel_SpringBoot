@@ -27,23 +27,7 @@
                         <td v-else="reservation.state !== 0">
                         </td>
                         <td>
-                            <!-- <button type="button" class="btn btn-primary arriba" @click="updateReservation(reservation.id)" data-target="#exampleModalScrollable">Update <font-awesome-icon icon="pen-to-square" /></button> -->
-                            <Button label="Show" icon="pi pi-external-link" @click="visible = true" />
-                                <Dialog v-model:visible="visible" modal header="Header" :style="{ width: '50rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
-                                    <template #header>
-                                        <div class="inline-flex align-items-center justify-content-center gap-2">
-                                            <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" shape="circle" />
-                                            <span class="font-bold white-space-nowrap">Amy Elsner</span>
-                                        </div>
-                                    </template>
-                                    <p class="m-0">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                    </p>
-                                    <template #footer>
-                                        <Button label="Ok" icon="pi pi-check" @click="visible = false" autofocus />
-                                    </template>
-                                </Dialog>
+                            <button type="button" class="btn btn-primary arriba" @click="updateReservation(reservation.id)" data-target="#exampleModalScrollable">Update <font-awesome-icon icon="pen-to-square" /></button>
                             <br>
                             <button class="btn btn-danger" @click="deleteReservation(reservation.id)">Delete <font-awesome-icon icon="trash" /></button>
                         </td>
@@ -61,11 +45,7 @@ import { reactive,ref } from "vue";
 import { computed } from 'vue';
 import { createToaster } from "@meforma/vue-toaster";
 import DataTable from 'datatables.net-vue3';
-import 'primevue/resources/themes/saga-blue/theme.css'; // theme
-import 'primevue/resources/primevue.min.css'; // core css
-import 'primeicons/primeicons.css'; // icons
-import { Button } from 'primevue/button';
-import { Dialog } from 'primevue/dialog';
+
 export default {
 
     props: {
@@ -138,7 +118,6 @@ export default {
 }
 </script>
 <style scoped>
-
 div.table-container table.table{
     border-radius: 10px !important;
     margin: 0 auto;

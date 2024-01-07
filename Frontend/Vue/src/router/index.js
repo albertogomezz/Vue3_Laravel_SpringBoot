@@ -95,12 +95,12 @@ import { defineAsyncComponent } from 'vue';
         //     name: "createReservation",
         //     component: () => import('../views/admin/Sport/ReservationCreate.vue')
         // },
-        {
-            //UPDATE SPORTS
-            path: "/admin/reservations/update/:id",
-            name: "updateReservations",
-            component: () => import('../views/admin/Reservations/ReservationsUpdate.vue')
-        },
+        // {
+        //     //UPDATE SPORTS
+        //     path: "/admin/reservations/update/:id",
+        //     name: "updateReservations",
+        //     component: () => import('../views/admin/Reservations/ReservationsUpdate.vue')
+        // },
         {
             //LOGIN
             path: "/login",
