@@ -51,18 +51,15 @@ export const reservationAdmin = {
         },
         [Constant.UPDATE_RESERVATION]: async (store, payload) => {
             try {
+                // console.log(payload);
                 const response = await ReservationServiceAdmin.UpdateReservation(payload);
-                if (response.status == 200) {
-                    store.commit(Constant.UPDATE_RESERVATION, payload);
+                // console.log(response);
+                if (response.status === 200) {
+                    // console.log(response.data);
+                    store.commit(Constant.UPDATE_RESERVATION, response.data.data);
                 }
             } catch (error) {
-                const status = error.response.status ?? 0;
-                if (status === 404) {
-                    toaster.error('Need to make a change');
-                }
-                if (status === 304) {
-                    toaster.error('The table is already reserved that day and in that type');
-                }
+                console.error(error);
             }
         },
     },//mutations
@@ -75,7 +72,7 @@ export const reservationAdmin = {
         },
         [Constant.DELETE_RESERVATION]: (state, payload) => {
             if (payload) {
-                console.log(payload);
+                // console.log(payload);
                 state.reservations = state.reservations.filter(item => item.id !== payload);
             }
         },
@@ -84,17 +81,12 @@ export const reservationAdmin = {
                 state.reservation = payload;
             }
         },
-        [Constant.UPDATE_RESERVATION]: (state, payload) => {
+            [Constant.UPDATE_RESERVATION](state, payload) {
             if (payload) {
-                const data = state.reservations ?? []
-                const index = data.findIndex(item => item.id === payload.id);
-                if (index !== -1) {
-                    payload.accepted = Number(payload.accepted);
-                    state.reservations[index] = payload;
-                }
+              state.reservation = payload;
                 router.push({ name: 'reservationsList' });
             }
-        },
+    },
     },//actions
     getters: {
         GetReservations(state) {
