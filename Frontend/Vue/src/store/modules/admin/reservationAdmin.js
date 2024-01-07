@@ -20,9 +20,12 @@ export const reservationAdmin = {
         },
         [Constant.DELETE_RESERVATION]: async (store, payload) => {
             try {
-                const response = await ReservationServiceAdmin.DeleteReservation(payload);
+                // console.log(payload.id);
+                const response = await ReservationServiceAdmin.DeleteReservation(payload.id);
+                // console.log(response);
                 if (response.status === 200) {
-                    store.commit(Constant.DELETE_RESERVATION, payload);
+                    // console.log('hola');
+                    store.commit(Constant.DELETE_RESERVATION, payload.id);
                 }
             } catch (error) {
                 console.error(error);
@@ -72,6 +75,7 @@ export const reservationAdmin = {
         },
         [Constant.DELETE_RESERVATION]: (state, payload) => {
             if (payload) {
+                console.log(payload);
                 state.reservations = state.reservations.filter(item => item.id !== payload);
             }
         },

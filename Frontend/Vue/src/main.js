@@ -14,6 +14,9 @@ import 'primevue/resources/primevue.min.css'
 import  'primeicons/primeicons.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 //RESERVAS
 import Dialog from 'primevue/dialog';
@@ -24,6 +27,9 @@ import store from "./store";
 
 const app = createApp(App)
 
+
+
+library.add(fas);
 app.use(PrimeVue)
 .use(Dialog)
 .use(router)
@@ -31,6 +37,7 @@ app.use(PrimeVue)
 .use(Toaster)
 .use(Paginate)
 app.component('Toast', Toast);
+app.component('font-awesome-icon', FontAwesomeIcon)
 app.component('InputText', InputText);
 app.component('Menubar', Menubar);
 app.component('Button', Button);

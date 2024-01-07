@@ -22,36 +22,40 @@ class ReservationController extends Controller
     {
         return ReservationResource::make(Reservation::where('id', $id)->firstOrFail());
     }
-
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         $data = $request->all();
 
         $reservation = Reservation::findOrFail($id);
+        $pista = Pista::where('id', $reservation->pista_id)->firstOrFail();
+        $user = User::where('id',  $reservation->user_id)->firstOrFail();
 
-        if (isset($data["user_id"])) {
-            $user = User::find($data["user_id"]);
-
-            if ($user) {
-                $reservation->user_id = $data["user_id"];
-            } else {
-                return response()->json([
-                    "Error" => "The provided user_id does not correspond to an existing user."
-                ]);
-            }
+        if (isset($data["state"]) && in_array($data["state"], [0, 1, 2])) {
+            $reservation->state = $data["state"];
         }
 
         if (isset($data["pista_id"])) {
-            $pista = Pista::find($data["pista_id"]);
-
-            if ($pista) {
-                $reservation->pista_id = $data["pista_id"];
-            } else {
-                return response()->json([
-                    "Error" => "The provided pista_id does not correspond to an existing pista."
-                ]);
-            }
+            $reservation->pista_id = $data["pista_id"];
+        }
+        if (isset($data["user_id"])) {
+            $reservation->user_id = $data["user_id"];
         }
 
+
+        if (isset($data["date"])) {
+            $reservationDate = new \DateTime($data['date']);
+            $now = new \DateTime();
+
+            if ($now > $reservationDate) {
+                return response()->json([
+                    "Error" => "The reservation date cannot be in the past."
+                ]);
+            }
+
+            $reservation->date = $data["date"];
+        }
+
+        // Save the changes to the reservation.
         $reservation->save();
 
         return response()->json([

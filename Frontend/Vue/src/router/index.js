@@ -90,17 +90,17 @@ import { defineAsyncComponent } from 'vue';
             component: () => import('../views/admin/Reservations/Reservations.vue')
         },
         // {
-        //     //CREATE SPORTS
-        //     path: "/admin/sports/create",
-        //     name: "createSport",
-        //     component: () => import('../views/admin/Sport/SportCreate.vue')
+        //     //CREATE RESERVATIONS
+        //     path: "/admin/reservations/create",
+        //     name: "createReservation",
+        //     component: () => import('../views/admin/Sport/ReservationCreate.vue')
         // },
-        // {
-        //     //UPDATE SPORTS
-        //     path: "/admin/sports/update/:id",
-        //     name: "updateSport",
-        //     component: () => import('../views/admin/Sport/SportUpdate.vue')
-        // },
+        {
+            //UPDATE SPORTS
+            path: "/admin/reservations/update/:id",
+            name: "updateReservations",
+            component: () => import('../views/admin/Reservations/ReservationsUpdate.vue')
+        },
         {
             //LOGIN
             path: "/login",
