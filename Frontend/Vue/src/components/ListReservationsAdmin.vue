@@ -1,96 +1,76 @@
 <template>
-    <div class="row">
-        <div class="col-lg-8 offset-lg-3">
-            <div class="table-responsive">
-                <DataTable :data="reservations" :columns="columns" :options="{responsive: true, autoWidth: false, dom: 'Bfrtip' }" class="table table-striped table-bordered display" >
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>User ID</th>
-                        <th>Pista ID</th>
-                        <th>Date</th>
-                        <th>State</th>
-                        <th>Change state</th>
-                        <th>Modify</th>
+    <div class="table-container">
+        <table class="table table-striped table table-hover">
+                <thead>
+                    <tr class="table-active">
+                        <th class="table-active" scope="col">ID</th>
+                        <th class="table-active" scope="col">User ID</th>
+                        <th class="table-active" scope="col">Pista ID</th>
+                        <th class="table-active" scope="col">Date</th>
+                        <th class="table-active" scope="col">State</th>
+                        <th class="table-active" scope="col">Change state</th>
+                        <th class="table-active" scope="col">Modify</th>
                     </tr>
                 </thead>
-                <!-- <tbody class="text-center">
+                <tbody class="text-center">
                     <tr v-for="reservation in reservations">
                         <td>{{ reservation.id }}</td>
                         <td>{{ reservation.user_id }}</td>
                         <td>{{ reservation.pista_id }}</td>
                         <td>{{ reservation.date }}</td>
-                        <td>{{ reservation.state }}</td>
-                        <td>
-                            <button class="pulse" @click="ConfirmReservation(reservation.id)">Confirm Reservation</button>
+                        <td>{{ GetState(reservation.state)}}</td>
+                        <td v-if="reservation.state === 0">
+                            <button class="btn btn-success arriba" @click="ConfirmReservation(reservation.id)"><font-awesome-icon icon="check" /></button>
                             <br>
-                            <button class="pulse" @click="CancelReservation(reservation.id)">Cancel Reservation</button>
+                            <button class="btn btn-danger" @click="CancelReservation(reservation.id)"><font-awesome-icon icon="x" /></button>
+                        </td>
+                        <td v-else="reservation.state !== 0">
                         </td>
                         <td>
-                            <button class="pulse" @click="updatePista(reservation.id)">Update Reservation</button>
-                            <br>
-                            <button class="pulse" @click="deletePista(reservation.id)">Delete Reservation</button>
+                            <button type="button" class="btn btn-primary arriba" @click="visible = true">Update <font-awesome-icon icon="pen-to-square" /></button>
+                            <!-- <Button label="Update" class="btn btn-primary arriba"  /> -->
+                            <br>                                            <!-- @click="updateReservation(reservation.id)" -->
+                            <button class="btn btn-danger" @click="deleteReservation(reservation.id)">Delete <font-awesome-icon icon="trash" /></button>
                         </td>
                     </tr>
-                </tbody> -->
-                </DataTable>
-            </div>
-            
-        </div>
-    
+                </tbody>
+            </table>
     </div>
+    <Dialog v-model:visible="visible" modal header="Update Reservation">
+    <form @submit.prevent="updateReservation">
+        <div class="form-group">
+            <label for="reservationDate">Date</label>
+            <input type="date" id="reservationDate"  class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="reservationTime">Time</label>
+            <input type="time" id="reservationTime" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+    <h1>{{ stateOne.reservation }}</h1>
+</Dialog>
 </template>
 
 <script>
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import Constant from '../Constant';
+import { reactive,ref } from "vue";
+import { computed } from 'vue';
 import { createToaster } from "@meforma/vue-toaster";
 import DataTable from 'datatables.net-vue3';
-import DataTableLib from 'datatables.net-bs5';
-import ButtonsHtml5 from 'datatables.net-buttons/js/buttons.html5';
-import Buttons from 'datatables.net-buttons-bs5';
-import JsZip from 'jszip';
-
-window.JsZip = JsZip;
-DataTable.use(DataTableLib)
-DataTable.use(Buttons)
-// DataTable.use(ButtonsHtml5)
-
 
 export default {
-    components: { DataTable },
 
-    data(){
-        return {
-            columns: [
-
-                { title: "ID", data: "id" },
-                { title: "User ID", data: "user_id" },
-                { title: "Pista ID", data: "pista_id" },
-                { title: "Date", data: "date" },
-                { title: "State", data: "state" },
-                { 
-                title: "Change state", 
-                render: function(data, type, row, meta) {
-                    return `<Buttons onclick="ConfirmReservation('${row.id}')">Change state</Buttons> 
-                    <br>
-                    <Buttons onclick="ConfirmReservation('${row.id}')">Change state</Buttons>`;
-                }
-            },
-            { 
-                title: "Modify", 
-                render: function(data, type, row, meta) {
-                    return `<button onclick="updateReservation('${row.id}')">Update</button>
-                    <br>
-                    <button onclick="deleteReservation('${row.id}')">Delete</button>`;
-                }
-            },
-            ],
-        }
-    },
     props: {
         reservations: Object,
+    },
+    data() {
+        return {
+            visible: false,
+            date: null,
+        }
     },
     setup() {
 
@@ -98,35 +78,97 @@ export default {
         const store = useStore();
         const router = useRouter();
 
+        function GetState(reservation){
+            if(reservation == 0){
+                return "Pending";
+            }else if(reservation == 1){
+                return "Confirmed";
+            }else if(reservation == 2){
+                return "Canceled";
+            }
+        }
 
-        const deleteReservation = (id) => {
-            // store.dispatch(`pistaAdmin/${Constant.DELETE_ONE_PISTA}`, { id })
-            // toaster.success('Pista Deleted Successfully');
-            // router.push({ name: "listPistas" })
+        //ACTIONS
+        const deleteReservation = async (id) => {
+            console.log(id);
+            await store.dispatch(`reservationAdmin/${Constant.DELETE_RESERVATION}`, { id })
+            toaster.success('Pista Deleted Successfully');
+            router.push({ name: "listReservations" })
         }
-        const updateReservation = (id) => {
-            // console.log(id);
-            // router.push({ name: "updatePista", params: { id } })
+        const updateReservation = async (id) => {
+            console.log(id);
+            await store.dispatch(`reservationAdmin/${Constant.GET_ONE_RESERVATION}`, id);
+            const newreservation = store.state.reservationAdmin.reservation;
+            router.push({ name: "listReservations" })
         }
-        const ConfirmReservation = (id) => {
-            // store.dispatch(`pistaAdmin/${Constant.CONFIRM_RESERVATION}`, { id })
-            // toaster.success('Reservation Confirmed Successfully');
-            // router.push({ name: "listPistas" })
+        //STATE
+        const ConfirmReservation =  async (id) => {
+            console.log(id);
+            await store.dispatch(`reservationAdmin/${Constant.UPDATE_RESERVATION}`, { id, state: 1 });
+            toaster.success('Reservation Confirmed Successfully');
+            router.push({ name: "listReservations" });
+            window.location.reload();
+
         }
-        const CancelReservation = (id) => {
-            // store.dispatch(`pistaAdmin/${Constant.CANCEL_RESERVATION}`, { id })
-            // toaster.success('Reservation Cancelled Successfully');
-            // router.push({ name: "listPistas" })
+        const CancelReservation = async (id) => {
+            console.log(id);
+            await store.dispatch(`reservationAdmin/${Constant.UPDATE_RESERVATION}`, { id, state: 2 });
+            toaster.success('Reservation Canceled Successfully');
+            router.push({ name: "listReservations" });
+            window.location.reload();
         }
+
+
+    
+        const stateOne = reactive({
+            reservation: computed(() => store.getters["reservationAdmin/getOneReservation"])
+        })
+
+        const update_emit = (pista) =>{
+            // console.log(pista);
+            store.dispatch(`pistaAdmin/${Constant.UPDATE_ONE_PISTA}`, pista);
+            toaster.success('Pista Updated Successfully');
+            router.push({ name: "listPistas" })
+        }
+
         return { 
             deleteReservation
             , updateReservation
-            , ConfirmReservation
+            , ConfirmReservation 
             , CancelReservation
+            , GetState
+            , store
+            , stateOne
+            , update_emit
         }
     }
 }
 </script>
 <style scoped>
-@import 'datatables.net-dt';
+div.table-container table.table{
+    border-radius: 10px !important;
+    margin: 0 auto;
+    width: 86%;
+    clear: both;
+    border-collapse: collapse;
+     table-layout: fixed; 
+    word-wrap: break-word;
+    margin: 40px;
+    /*box-shadow: 0px 0px 10px 0px #000000; */
+}
+    .table-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+.arriba{
+    margin: 10px;
+    align-items: centerz;
+}
+.table-active{
+    background-color: rgb(47, 132, 207);
+    color: #ffffff;
+    text-align: center;
+}
 </style>
