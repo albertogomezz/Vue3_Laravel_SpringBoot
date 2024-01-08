@@ -49,18 +49,17 @@ class ReservationController extends Controller
             if ($now > $reservationDate) {
                 return response()->json([
                     "Error" => "The reservation date cannot be in the past."
-                ]);
+                ], 404);
             }
 
             $reservation->date = $data["date"];
         }
 
-        // Save the changes to the reservation.
         $reservation->save();
 
         return response()->json([
             "Message" => "Reservation updated successfully."
-        ]);
+        ], 200);
     }
 
     public function destroy($id)

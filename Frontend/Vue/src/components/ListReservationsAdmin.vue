@@ -27,9 +27,8 @@
                         <td v-else="reservation.state !== 0">
                         </td>
                         <td>
-                            <button type="button" class="btn btn-primary arriba" @click="visible = true">Update <font-awesome-icon icon="pen-to-square" /></button>
-                            <!-- <Button label="Update" class="btn btn-primary arriba"  /> -->
-                            <br>                                            <!-- @click="updateReservation(reservation.id)" -->
+                            <button type="button" class="btn btn-primary arriba" @click="openDialog(reservation), reservation_id = reservation.id, visible = true">Update <font-awesome-icon icon="pen-to-square" /></button>
+                            <br>
                             <button class="btn btn-danger" @click="deleteReservation(reservation.id)">Delete <font-awesome-icon icon="trash" /></button>
                         </td>
                     </tr>
@@ -37,19 +36,14 @@
             </table>
     </div>
     <Dialog v-model:visible="visible" modal header="Update Reservation">
-    <form @submit.prevent="updateReservation">
-        <div class="form-group">
-            <label for="reservationDate">Date</label>
-            <input type="date" id="reservationDate"  class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="reservationTime">Time</label>
-            <input type="time" id="reservationTime" class="form-control">
-        </div>
-        <button type="submit" class="btn btn-primary">Update</button>
-    </form>
-    <h1>{{ stateOne.reservation }}</h1>
-</Dialog>
+        <form @submit.prevent="updateReservation(reservation_id)">
+            <div class="form-group">
+                <label for="reservationDate">Date</label>
+                <input type="date" id="reservationDate" v-model="Reservation.date" class="form-control">
+            </div>
+            <button type="submit" @click="visible = false" class="btn btn-primary">Update</button>
+        </form>
+    </Dialog>
 </template>
 
 <script>
@@ -70,6 +64,7 @@ export default {
         return {
             visible: false,
             date: null,
+            reservation_id: null,
         }
     },
     setup() {
@@ -87,49 +82,47 @@ export default {
                 return "Canceled";
             }
         }
+        //OPEN MODAL AND GET DATA
+        function openDialog(reservation) {
+            this.visible = true;
+            this.Reservation = { ...reservation };
+        }
+
+        const stateOne = reactive({
+            reservation: computed(() => store.getters["reservationAdmin/getOneReservation"])
+        });
 
         //ACTIONS
         const deleteReservation = async (id) => {
-            console.log(id);
+            // console.log(id);
             await store.dispatch(`reservationAdmin/${Constant.DELETE_RESERVATION}`, { id })
             toaster.success('Pista Deleted Successfully');
-            router.push({ name: "listReservations" })
         }
         const updateReservation = async (id) => {
-            console.log(id);
-            await store.dispatch(`reservationAdmin/${Constant.GET_ONE_RESERVATION}`, id);
-            const newreservation = store.state.reservationAdmin.reservation;
-            router.push({ name: "listReservations" })
+            toaster.success("Reservation updated successfully");
+            var date = document.getElementById("reservationDate").value;    
+            // console.log(id);
+            // console.log(date);
+            await store.dispatch(`reservationAdmin/${Constant.UPDATE_RESERVATION}`, { id, date});
+            window.location.reload();
+
         }
+
         //STATE
         const ConfirmReservation =  async (id) => {
-            console.log(id);
+            // console.log(id);
             await store.dispatch(`reservationAdmin/${Constant.UPDATE_RESERVATION}`, { id, state: 1 });
             toaster.success('Reservation Confirmed Successfully');
-            router.push({ name: "listReservations" });
             window.location.reload();
 
         }
         const CancelReservation = async (id) => {
-            console.log(id);
+            // console.log(id);
             await store.dispatch(`reservationAdmin/${Constant.UPDATE_RESERVATION}`, { id, state: 2 });
             toaster.success('Reservation Canceled Successfully');
-            router.push({ name: "listReservations" });
             window.location.reload();
         }
 
-
-    
-        const stateOne = reactive({
-            reservation: computed(() => store.getters["reservationAdmin/getOneReservation"])
-        })
-
-        const update_emit = (pista) =>{
-            // console.log(pista);
-            store.dispatch(`pistaAdmin/${Constant.UPDATE_ONE_PISTA}`, pista);
-            toaster.success('Pista Updated Successfully');
-            router.push({ name: "listPistas" })
-        }
 
         return { 
             deleteReservation
@@ -139,7 +132,7 @@ export default {
             , GetState
             , store
             , stateOne
-            , update_emit
+            , openDialog
         }
     }
 }

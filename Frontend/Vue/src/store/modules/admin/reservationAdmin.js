@@ -51,12 +51,11 @@ export const reservationAdmin = {
         },
         [Constant.UPDATE_RESERVATION]: async (store, payload) => {
             try {
-                // console.log(payload);
+                console.log(payload.id);
                 const response = await ReservationServiceAdmin.UpdateReservation(payload);
-                // console.log(response);
+                // console.log(response.status);
                 if (response.status === 200) {
-                    // console.log(response.data);
-                    store.commit(Constant.UPDATE_RESERVATION, response.data.data);
+                    store.commit(Constant.UPDATE_RESERVATION, response.data);
                 }
             } catch (error) {
                 console.error(error);
@@ -81,12 +80,12 @@ export const reservationAdmin = {
                 state.reservation = payload;
             }
         },
-            [Constant.UPDATE_RESERVATION](state, payload) {
-            if (payload) {
-              state.reservation = payload;
-                router.push({ name: 'reservationsList' });
+        [Constant.UPDATE_RESERVATION](state, updatedReservation) {
+            const index = state.reservations.findIndex(reservation => reservation.id === updatedReservation.id);
+            if (index !== -1) {
+                state.reservations.splice(index, 1, updatedReservation);
             }
-    },
+        },
     },//actions
     getters: {
         GetReservations(state) {
