@@ -157,7 +157,7 @@ div.table-container table.table{
 }
 .arriba{
     margin: 10px;
-    align-items: centerz;
+    align-items: center;
 }
 .table-active{
     background-color: rgb(47, 132, 207);
