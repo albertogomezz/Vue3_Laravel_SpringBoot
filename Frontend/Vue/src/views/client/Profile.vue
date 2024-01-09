@@ -18,16 +18,37 @@
 
           <div class="profile-stats">
             <ul>
-              <li @click="handleStatClick('Accepted')">
-                <span class="profile-stat-count">{{ state.profile.acceptedCount }}</span> Accepted
+              <li @click="GetReservationsByEstado(1)">
+                <span class="profile-stat-count"></span> Accepted
               </li>
-              <li @click="handleStatClick('Pending')">
-                <span class="profile-stat-count">{{ state.profile.pendingCount }}</span> Pending
+              <li @click="GetReservationsByEstado(0)">
+                <span class="profile-stat-count"></span> Pending
               </li>
-              <li @click="handleStatClick('Canceled')">
-                <span class="profile-stat-count">{{ state.profile.canceledCount }}</span> Canceled
+              <li @click="GetReservationsByEstado(2)">
+                <span class="profile-stat-count"></span> Canceled
               </li>
             </ul>
+          </div>
+        </div>
+        <!-- <h1>{{ state.reservations }}</h1> -->
+        <!-- Display Reservation Cards -->
+        <div class="reservation-cards">
+          <div class="alinear-texto" v-if="state.reservations.length === 0">
+            No reservations to display.
+          </div>
+          <div v-else>
+            <div v-for="reservation in state.reservations" :key="reservation.id" class="card">
+              <!-- <img :src="reservation.image" alt="Reservation Image"> -->
+              <div class="card-info">
+                <h2>Pista : P{{ reservation.pista_id }}</h2>
+                <p>Fecha : {{ reservation.date }}</p>
+                <!-- Add more information as needed -->
+                <div class="buttons">
+                  <button class="edit-button">Edit Reservation <font-awesome-icon icon="pen-to-square" /></button>
+                  <button class="delete-button">Delete <font-awesome-icon icon="trash"/></button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -36,39 +57,37 @@
 </template>
 
 <script>
-import { computed, reactive } from "vue";
+import { computed, reactive, onMounted, ref} from "vue";
 import { useStore } from 'vuex';
+import { GetReservationsUserByState } from '../../composables/reservations/useReservations';
 
 export default {
 
     setup() {
-        const store = useStore();
-        const state = reactive({
-            profile: computed(() => store.getters['user/GetProfile']),
-        });
+      let estado = 1;
+      let reservations = ref('');
 
-        const handleStatClick = (stat) => {
+      const store = useStore();
 
-          switch (stat) {
-            case 'Accepted':
-              console.log('Mostrar contenido para Accepted');
-              break;
-            case 'Pending':
-              console.log('Mostrar contenido para Pending');
-              break;
-            case 'Canceled':
-              console.log('Mostrar contenido para Canceled');
-              break;
-            default:
-              break;
-          }
-        };
+      const state = reactive({
+          reservations: GetReservationsUserByState(estado),
+          profile: computed(() => store.getters['user/GetProfile']),
+      });
 
-        return {
-          state,
-          handleStatClick,
-        };
+      const GetReservationsByEstado = async (estat) => {
+        state.reservations = await GetReservationsUserByState(estat);
+      };
 
+      onMounted(async () => {
+        state.reservations = await GetReservationsUserByState(estado);
+      });
+
+      return {
+        state,
+        GetReservationsByEstado,
+        reservations,
+        estado
+      };
     }
 }
 
@@ -76,6 +95,68 @@ export default {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap");
+.reservation-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.card {
+  flex: 0 0 calc(33.333% - 20px);
+  /* Ajusta el espacio y el tamaño según tus necesidades */
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+}
+
+.alinear-texto {
+  text-align: center;
+}
+
+.card img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 4px 0 0 4px;
+}
+
+.card-info {
+  padding: 10px;
+  width: 825px;
+  height: 150px;
+}
+
+.card-info h2 {
+  margin: 0;
+}
+
+.card-info p {
+  margin: 8px 0;
+}
+
+.buttons {
+  display: flex;
+}
+
+.edit-button,
+.delete-button {
+  padding: 8px;
+  margin-right: 8px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+}
+
+.edit-button {
+  background-color: #3498db;
+  color: #fff;
+}
+
+.delete-button {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
 :root {
   font-size: 8px;
 }

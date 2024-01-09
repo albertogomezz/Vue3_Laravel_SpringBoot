@@ -12,6 +12,9 @@ export default {
     CreateReservation(data) {
         return Api(secrets.URL_SPRING).post(`reservation/${data.pista_id}`, {"date":data.date});
     },//CreateReservation
+    FindReservationsUserByState(state) {
+        return Api(secrets.URL_SPRING).get(`reservations/${state}`);
+    },//CreateReservation
     UpdateReservation(data, id) {
         return Api(secrets.URL_SPRING).put(`reservation/${id}`, data);
     },//UpdateReservation

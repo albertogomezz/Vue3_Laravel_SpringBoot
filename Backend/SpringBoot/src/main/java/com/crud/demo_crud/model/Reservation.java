@@ -41,4 +41,13 @@ public class Reservation {
     @Column(name = "state")
     private Integer state;
     
+    @Override
+	public String toString() {
+        return "{" +
+                " id='" + getId() + "'" +
+                ", pista_id='" + getPista() + "'" +
+                ", date='" + getDate() + "'" +
+                ", state='" + getState() + "'" +
+                "}";
+    }
 }

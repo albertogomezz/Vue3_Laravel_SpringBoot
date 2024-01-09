@@ -48,6 +48,9 @@
             </a>
         </form>
     </div>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br>
 
 </template>
 
@@ -95,7 +98,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .login-box {
     position: absolute;
     top: 70%;

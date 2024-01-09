@@ -1,5 +1,6 @@
 package com.crud.demo_crud.controllers;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,8 +19,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.crud.demo_crud.model.User;
 import com.crud.demo_crud.model.Pista;
 import com.crud.demo_crud.model.Reservation;
+import com.crud.demo_crud.model.ReservationDetails;
 import com.crud.demo_crud.repository.UserRepository;
 import com.crud.demo_crud.repository.PistaRepository;
+import com.crud.demo_crud.repository.ReservationDetailsRepository;
 import com.crud.demo_crud.repository.ReservationRepository;
 
 @CrossOrigin(origins = "http://localhost:5173")
@@ -29,6 +32,9 @@ public class ReservationController {
 
     @Autowired
     private ReservationRepository ReservationRepository;
+
+    @Autowired
+    private ReservationDetailsRepository ReservationDetailsRepository;
 
     @Autowired
     private PistaRepository PistaRepository;
@@ -50,9 +56,15 @@ public class ReservationController {
 
             Pista pista = PistaRepository.findById(pista_id).get();
             
-
             if (pista == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            
+            Date currentDate = new Date();
+            Date reservationDate = reservation.getDate();
+
+            if (reservationDate.before(currentDate)) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
 
             Integer pistaAvailable = ReservationRepository.pistaAvailable(pista_id, reservation.getDate());
@@ -161,11 +173,11 @@ public class ReservationController {
         }
     }
 
-    @GetMapping("/reservations")
-    public ResponseEntity<List<Reservation>> getUserReservations() {
+    @GetMapping("/reservations/{state}")
+    public ResponseEntity<List<ReservationDetails>> getUserReservations(@PathVariable(required = true) Long state) {
         try {
-            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
-                    .getPrincipal();
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            
             User user = UserRepository.findByUsername(userDetails.getUsername()).get();
 
             if (user == null) {
@@ -173,8 +185,7 @@ public class ReservationController {
             }
 
             Long user_id = user.getId();
-
-            List<Reservation> userReservations = ReservationRepository.findReservationsByUser(user_id);
+            List<ReservationDetails> userReservations = ReservationDetailsRepository.findReservationsByUser(user_id,state);
 
             return new ResponseEntity<>(userReservations, HttpStatus.OK);
         } catch (Exception e) {

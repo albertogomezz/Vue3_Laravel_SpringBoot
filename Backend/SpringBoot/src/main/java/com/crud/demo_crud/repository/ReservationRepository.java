@@ -21,5 +21,4 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     // @Query(value = "UPDATE reservations SET state = 2 WHERE id = :pista_id  AND date = :date AND user_id = :user_id ;", nativeQuery = true)
     // List<Reservation> cancelReservationsOfPista( @Param("pista_id") Long pista_id,  @Param("date") Date date, @Param("user_id") Long user_id);
-
 }

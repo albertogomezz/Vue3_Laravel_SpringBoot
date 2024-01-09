@@ -104,11 +104,11 @@ export default {
                 ReservationService.CreateReservation(info_reserva)
                     .then(() => {
                         this.visible = false;
-                        toaster.success(`Reserva solicitada para el día ${info_reserva.date}`);
+                        toaster.success(`Reserva solicitada para la fecha ${info_reserva.date}`);
                     })
                     .catch(() => {
                         this.visible = false;
-                        toaster.warning(`No se ha podido realizar la reserva para el día ${info_reserva.date}`);
+                        toaster.warning(`No se ha podido realizar la reserva para la fecha ${info_reserva.date}`);
                     }
                 );
             }
@@ -128,7 +128,6 @@ body {
   background-color:  #eee;
 }
 .title {
- 
     margin-bottom: 50px;
     text-transform: uppercase;
 }
@@ -142,7 +141,6 @@ body {
     border: none;
     border-top: 1px solid rgba(34, 36, 38, .1);
     box-shadow: none;
-     
 }
 .card {
     font-size: 1em;
