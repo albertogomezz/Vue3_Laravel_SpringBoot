@@ -1,22 +1,21 @@
-<template>
-    <body class="tableMesa">
-        <div class="crud-table">
-            <div class="clearfix">
-                <div class="form-inline pull-left">
-                    <button class="btn btn-success" @click="createSport()"><span class="glyphicon glyphicon-plus">
-                        </span>Add Sport</button>
+<template>   
+    <body>
+        <div class="">
+                <div class="crear">
+                    <button class="btn btn-success" @click="createSport()">
+                        Add Sport <span class="fa fa-plus"/></button>
                 </div>
             </div>
-            <table class="table table-striped">
+    <div class="table-container">
+        <table class="table table-striped table table-hover">
                 <thead>
-                    <tr>
-                        <th>Sport ID</th>
-                        <th>Sport Name</th>
-                        <th>Description</th>
-                        <th>Price</th>
-                        <th>Image</th>
-                        <th></th>
-                        <th></th>
+                    <tr class="table-active">
+                        <th class="table-active" scope="col">Sport ID</th>
+                        <th class="table-active" scope="col">Sport Name</th>
+                        <th class="table-active" scope="col">Description</th>
+                        <th class="table-active" scope="col">Price</th>
+                        <th class="table-active" scope="col">Image</th>
+                        <th class="table-active" scope="col"></th>
                     </tr>
                 </thead>
                 <tbody class="text-center">
@@ -25,12 +24,11 @@
                         <td>{{ sport.sport_name }}</td>
                         <td>{{ sport.description }}</td>
                         <td>{{ sport.price }}</td>
-                        <td>{{ sport.image }}</td>
                         <td>
-                            <button class="pulse" @click="updateSport(sport.id)">Edit</button>
+                            <button class="btn btn-warning" @click="updateSport(sport.id)">Update <font-awesome-icon icon="pen-to-square" /></button>
                         </td>
                         <td>
-                            <button class="pulse" @click="deleteSport(sport.id)">Delete</button>
+                            <button class="btn btn-danger" @click="deleteSport(sport.id)">Delete <font-awesome-icon icon="trash" /></button>
                         </td>
                     </tr>
                 </tbody>
@@ -76,194 +74,41 @@ export default {
     }
 }
 </script>
-<style lang="scss">
-body.tableMesa {
-    font-family: "Roboto", helvetica, arial, sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-    text-rendering: optimizeLegibility;
+<style scoped>
+.text-center{
+    text-align: center;
+    vertical-align: middle;
 }
-
-div.table-title {
-    display: block;
-    margin: auto;
-    max-width: 600px;
-    padding: 5px;
-    width: 100%;
-}
-
-.table-title h3 {
-    color: #ffffff;
-    font-size: 30px;
-    font-weight: 400;
-    font-style: normal;
-    font-family: "Roboto", helvetica, arial, sans-serif;
-    text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
-    text-transform: uppercase;
-}
-
-
-/* Table Styles **/
-
-.table-fill {
-    background: white;
-    border-radius: 3px;
+div.table-container table.table{
+    border-radius: 10px !important;
+    margin: 0 auto;
+    width: 86%;
+    clear: both;
     border-collapse: collapse;
-    height: 320px;
-    margin: auto;
-    max-width: 600px;
-    padding: 5px;
-    width: 100%;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-    animation: float 5s infinite;
+     table-layout: fixed; 
+    word-wrap: break-word;
+    margin: 40px;
+    /*box-shadow: 0px 0px 10px 0px #000000; */
+}
+    .table-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+.arriba{
+    margin: 10px;
+    align-items: centerz;
+}
+.table-active{
+    background-color: rgb(47, 132, 207);
+    color: #ffffff;
+    text-align: center;
 }
 
-body.tableMesa {
-    th {
-        color: #D5DDE5;
-        ;
-        background: #1b1e24;
-        border-bottom: 4px solid #9ea7af;
-        border-right: 1px solid #343a45;
-        font-size: 23px;
-        font-weight: 100;
-        padding: 24px;
-        text-align: left;
-        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-        vertical-align: middle;
-    }
-
-    th:first-child {
-        border-top-left-radius: 3px;
-    }
-
-    th:last-child {
-        border-top-right-radius: 3px;
-        border-right: none;
-    }
-
-    tr {
-        border-top: 1px solid #C1C3D1;
-        border-bottom: 1px solid #C1C3D1;
-        color: #666B85;
-        font-size: 16px;
-        font-weight: normal;
-        text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
-    }
-
-    tr:hover td {
-        background: #4E5066;
-        color: #FFFFFF;
-        border-top: 1px solid #22262e;
-    }
-
-    tr:first-child {
-        border-top: none;
-    }
-
-    tr:last-child {
-        border-bottom: none;
-    }
-
-    tr:nth-child(odd) td {
-        background: #EBEBEB;
-    }
-
-    tr:nth-child(odd):hover td {
-        background: #4E5066;
-    }
-
-    tr:last-child td:first-child {
-        border-bottom-left-radius: 3px;
-    }
-
-    tr:last-child td:last-child {
-        border-bottom-right-radius: 3px;
-    }
-
-    td {
-        background: #FFFFFF;
-        padding: 20px;
-        text-align: left;
-        vertical-align: middle;
-        font-weight: 300;
-        font-size: 18px;
-        text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
-        border-right: 1px solid #C1C3D1;
-    }
-
-    td:last-child {
-        border-right: 0px;
-    }
-
-    th.text-left {
-        text-align: left;
-    }
-
-    th.text-center {
-        text-align: center;
-    }
-
-    th.text-right {
-        text-align: right;
-    }
-
-    td.text-left {
-        text-align: left;
-    }
-
-    td.text-center {
-        text-align: center;
-    }
-
-    td.text-right {
-        text-align: right;
-    }
-
-}
-
-.pulse:hover,
-.pulse:focus {
-    animation: pulse 1s;
-    box-shadow: 0 0 0 2em transparent;
-}
-
-@keyframes pulse {
-    0% {
-        box-shadow: 0 0 0 0 var(--hover);
-    }
-}
-
-body.tableMesa {
-    $colors: (pulse: #ef6eae,
-    );
-
-    @each $button,
-    $color in $colors {
-        .#{$button} {
-            --color: #{$color};
-            --hover: #{adjust-hue($color, 45deg)};
-        }
-    }
-
-    button {
-        color: var(--color);
-        transition: 0.25s;
-
-        &:hover,
-        &:focus {
-            border-color: var(--hover);
-            color: #fff;
-        }
-    }
-
-    button {
-        background: none;
-        border: 2px solid;
-        font: inherit;
-        line-height: 1;
-        margin: 0.5em;
-        padding: 1em 2em;
-    }
+.crear{
+    padding-top: 20px;
+    padding-bottom: 0;
+    padding-left: 100px;  
 }
 </style>
