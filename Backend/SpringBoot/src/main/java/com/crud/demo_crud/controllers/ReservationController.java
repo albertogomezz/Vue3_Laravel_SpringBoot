@@ -102,6 +102,13 @@ public class ReservationController {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
 
+            Date currentDate = new Date();
+            Date reservationDate = reservation_.getDate();
+
+            if (reservationDate.before(currentDate)) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+
             Integer pistaAvailable = ReservationRepository.pistaAvailable(reservation.getPista().getId(),
                     reservation_.getDate());
 
@@ -160,7 +167,7 @@ public class ReservationController {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
 
-            if (reservation.getState()  != 0) {
+            if (reservation.getState()  != 2) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
 

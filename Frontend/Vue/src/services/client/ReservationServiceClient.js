@@ -16,9 +16,12 @@ export default {
         return Api(secrets.URL_SPRING).get(`reservations/${state}`);
     },//CreateReservation
     UpdateReservation(data, id) {
-        return Api(secrets.URL_SPRING).put(`reservation/${id}`, data);
+        return Api(secrets.URL_SPRING).put(`reservation/${id}`, {"date":data});
     },//UpdateReservation
-    DeleteReservation(mesa_id) {
-        return Api(secrets.URL_SPRING).delete(`reservation/${mesa_id}`);
+    DeleteReservation(id) {
+        return Api(secrets.URL_SPRING).delete(`reservation/${id}`);
+    },//DeleteReservation
+    CancelReservation(id) {
+        return Api(secrets.URL_SPRING).put(`reservation_cancel/${id}`);
     },//DeleteReservation
 }//export

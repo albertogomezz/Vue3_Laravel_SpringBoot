@@ -18,37 +18,63 @@
 
           <div class="profile-stats">
             <ul>
-              <li @click="GetReservationsByEstado(1)">
+              <li @click="GetReservationsByEstado(1)" id="accepted">
                 <span class="profile-stat-count"></span> Accepted
               </li>
-              <li @click="GetReservationsByEstado(0)">
+              <li @click="GetReservationsByEstado(0)" id="pending">
                 <span class="profile-stat-count"></span> Pending
               </li>
-              <li @click="GetReservationsByEstado(2)">
+              <li @click="GetReservationsByEstado(2)" id="canceled">
                 <span class="profile-stat-count"></span> Canceled
               </li>
             </ul>
           </div>
         </div>
-        <!-- <h1>{{ state.reservations }}</h1> -->
-        <!-- Display Reservation Cards -->
         <div class="reservation-cards">
           <div class="alinear-texto" v-if="state.reservations.length === 0">
             No reservations to display.
           </div>
           <div v-else>
             <div v-for="reservation in state.reservations" :key="reservation.id" class="card">
-              <!-- <img :src="reservation.image" alt="Reservation Image"> -->
-              <div class="card-info">
-                <h2>Pista : P{{ reservation.pista_id }}</h2>
-                <p>Fecha : {{ reservation.date }}</p>
-                <!-- Add more information as needed -->
-                <div class="buttons">
-                  <button class="edit-button">Edit Reservation <font-awesome-icon icon="pen-to-square" /></button>
-                  <button class="delete-button">Delete <font-awesome-icon icon="trash"/></button>
+              <div v-if="reservation.state === 2">
+                <div class="card-info">
+                  <h2>Pista : P{{ reservation.pista_id }}</h2>
+                  <p>Date : {{ reservation.date }}</p>
+                  <div class="buttons">
+                    <button class="delete-button" @click="DeleteReservation(reservation.id)">Delete  <font-awesome-icon icon="trash"/></button>
+                  </div>
+                </div>
+              </div>
+              <div v-else-if="reservation.state === 0">
+                <div class="card-info">
+                  <h2>Pista : P{{ reservation.pista_id }}</h2>
+                  <p>Date : {{ reservation.date }}</p>
+                  <div class="buttons">
+                    <button class="edit-button" @click="openDialog(reservation), reservation_id = reservation.id, visible = true">Edit Date <font-awesome-icon icon="pen-to-square" /></button>
+                    <button class="delete-button" @click="CancelReservations(reservation.id)">Cancelar <font-awesome-icon icon="trash"/></button>
+                  </div>
+                </div>
+              </div>
+              <div v-else>
+                <div class="card-info">
+                  <h2>Pista : P{{ reservation.pista_id }}</h2>
+                  <p>Date : {{ reservation.date }}</p>
+                  <div class="buttons">
+                    <button class="delete-button" @click="AnularReservations(reservation.id)">Anular</button>
+                  </div>
                 </div>
               </div>
             </div>
+            <Dialog v-model:visible="visible" modal header="Update Reservation">
+              <form @submit.prevent="updateReservation(reservation_id)">
+                  <div class="form-group">
+                    <label for="reservationDate">Date</label>
+                    <input type="date" id="reservationDate" v-model="reservation.date" class="form-control">
+                  </div>
+                  <br>
+                <button type="submit" @click="visible = false" class="edit-button">Update</button>
+              </form>
+            </Dialog>
           </div>
         </div>
       </div>
@@ -59,15 +85,31 @@
 <script>
 import { computed, reactive, onMounted, ref} from "vue";
 import { useStore } from 'vuex';
-import { GetReservationsUserByState } from '../../composables/reservations/useReservations';
+import { createToaster } from "@meforma/vue-toaster";
+import { GetReservationsUserByState, UseDeleteReservations, UseCancelReservations, UseAnularReservations, UseUpdateReservation } from '../../composables/reservations/useReservations';
+
+const toaster = createToaster({ "position": "top-right", "duration": 1500 });
 
 export default {
-
+    data() {
+      return {
+        selectedReservation: null,
+        visible: false,
+        date: null,
+        reservation_id: null,
+      };
+    },
+    
     setup() {
       let estado = 1;
       let reservations = ref('');
 
       const store = useStore();
+
+      function openDialog(reservation) {
+            this.visible = true;
+            this.reservation = { ...reservation };
+      }
 
       const state = reactive({
           reservations: GetReservationsUserByState(estado),
@@ -82,19 +124,61 @@ export default {
         state.reservations = await GetReservationsUserByState(estado);
       });
 
+      const DeleteReservation = async (id) => {
+        await UseDeleteReservations(id);
+        toaster.success("Eliminada correctamente");
+        estado = 2;
+        state.reservations = await GetReservationsUserByState(estado);
+      };
+
+      const CancelReservations = async (id) => {
+        await UseCancelReservations(id);
+        toaster.success("Cancelada correctamente");
+        estado = 0;
+        state.reservations = await GetReservationsUserByState(estado);
+      };
+
+      const AnularReservations = async (id) => {
+        await UseAnularReservations(id);
+        toaster.success("Anulada correctamente");
+        estado = 1;
+        state.reservations = await GetReservationsUserByState(estado);
+      };
+
+      const updateReservation = async (id) => {
+        try {
+          var date = document.getElementById("reservationDate").value;
+          await UseUpdateReservation(date, id);
+          estado = 0;
+          state.reservations = await GetReservationsUserByState(estado);
+        } catch (error) {
+          console.error("Error updating reservation:", error);
+        }
+      };
+
       return {
         state,
         GetReservationsByEstado,
         reservations,
-        estado
+        estado,
+        DeleteReservation,
+        CancelReservations,
+        AnularReservations,
+        updateReservation,
+        openDialog,
       };
-    }
+  },
 }
 
 </script>
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap");
+
+.selected {
+  font-weight: bold;
+}
+
 .reservation-cards {
   display: flex;
   flex-wrap: wrap;

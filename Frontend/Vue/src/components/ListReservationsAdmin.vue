@@ -81,7 +81,7 @@ export default {
             }else if(reservation == 2){
                 return "Canceled";
             }
-        }
+        }       
         //OPEN MODAL AND GET DATA
         function openDialog(reservation) {
             this.visible = true;
@@ -105,7 +105,6 @@ export default {
             // console.log(date);
             await store.dispatch(`reservationAdmin/${Constant.UPDATE_RESERVATION}`, { id, date});
             window.location.reload();
-
         }
 
         //STATE

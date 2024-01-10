@@ -14,11 +14,11 @@
       <option value="0">Precio Mas Bajo</option>
     </select>
 
-    <select v-model="state.filters.reservation" class="form-select form-select-lg mb-3 each" aria-label="Price">
+    <!-- <select v-model="state.filters.reservation" class="form-select form-select-lg mb-3 each" aria-label="Price">
       <option selected hidden value="2" disabled default >Disponibilidad</option>
       <option value="0">Si</option>
       <option value="1">No</option>
-    </select>
+    </select> -->
 
     <Button label="Filter" type="submit" severity="success" @click="sendFilters()" raised />
     <br>
